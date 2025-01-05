@@ -14,6 +14,8 @@
   position: relative;
   height: 100%;
   overflow: hidden;
+
+  animation: appear .3s ease-out .3s 1 normal backwards;
 }
 
 .content_scroll {
@@ -60,4 +62,17 @@
   padding: 24px;
   height: 100%;
   max-height: max-content;
+
+  animation: appear .3s ease-out .75s 1 normal backwards;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
