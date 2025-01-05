@@ -1,0 +1,118 @@
+{
+  "data": {
+    "id": "story-1",
+    "type": "story",
+    "data": {
+      "name": "Story 1",
+      "description": "This is the first story",
+      "characters": [
+        {
+          "id": "character-1",
+          "type": "character",
+          "data": {
+            "name": "Character 1",
+            "face": "https://example.com/avatar-1-face.png",
+            "complete": "https://example.com/avatar-1.png"
+          }
+        },
+        {
+          "id": "character-2",
+          "type": "character",
+          "data": {
+            "name": "Character 2",
+            "face": "https://example.com/avatar-2-face.png",
+            "complete": "https://example.com/avatar-2.png"
+          }
+        }
+      ],
+      "frames": [
+        {
+          "id": "frame-1",
+          "type": "frame",
+          "data": {
+            "type": "start",
+            "data": {
+              "cta": {
+                "text": "Continuar",
+                "action": {
+                  "type": "frame-change",
+                  "data": "frame-2"
+                }
+              },
+              "content": {
+                "asset": null,
+                "text": "Había una vez..."
+              }
+            }
+          }
+        },
+        {
+          "id": "frame-2",
+          "type": "frame",
+          "data": {
+            "type": "back-and-next",
+            "data": {
+              "cta": {
+                "back": {
+                  "text": "Volver",
+                  "action": {
+                    "type": "frame-change",
+                    "data": "frame-1"
+                  }
+                },
+                "next": {
+                  "text": "Continuar",
+                  "action": {
+                    "type": "frame-change",
+                    "data": "frame-3"
+                  }
+                }
+              },
+              "content": {
+                "asset": null,
+                "text": "Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON."
+              }
+            }
+          }
+        },
+        {
+          "id": "frame-3",
+          "type": "frame",
+          "data": {
+            "type": "radio-choice",
+            "data": {
+              "cta": [
+                {
+                  "text": "Opción 1",
+                  "action": {
+                    "type": "frame-change",
+                    "data": "frame-2"
+                  }
+                },
+                {
+                  "text": "Opción 2",
+                  "action": {
+                    "type": "frame-change",
+                    "data": "frame-3"
+                  }
+                },
+                {
+                  "text": "Opción 3",
+                  "action": {
+                    "type": "frame-change",
+                    "data": "frame-4"
+                  }
+                }
+              ],
+              "content": {
+                "asset": null,
+                "text": "Había una vez"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "error": null
+}

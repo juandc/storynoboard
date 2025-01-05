@@ -15,8 +15,6 @@ export const Button: FC<PropsWithChildren<Props>> = ({
   if (variant === "primary") btnVariant = styles.Button__primary;
   if (variant === "secondary") btnVariant = styles.Button__secondary;
   const btnClasses = `${styles.Button} ${btnVariant} ${className}`;
-  console.log(btnClasses);
-
   return (
     <button
       {...props}
