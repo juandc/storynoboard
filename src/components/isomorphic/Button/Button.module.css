@@ -1,0 +1,18 @@
+.Button {
+  background-color: #A21DF4;
+  color: #FFF;
+  border: none;
+  border-radius: 32px;
+  font-size: 20px;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+  height: 40px;
+}
+
+.Button__primary {
+  font-size: 22px;
+  height: 64px;
+}
