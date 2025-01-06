@@ -25,6 +25,8 @@ export const useSwipe = ({
     let touchEndY = 0;
 
     const checkHorizontal = () => {
+      const diff = Math.abs(touchEndX - touchStartX);
+      if (diff <= 50) return;
       if (touchEndX < touchStartX) onSwipeLeft?.();
       else onSwipeRight?.();
     };
