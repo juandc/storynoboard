@@ -1,4 +1,4 @@
-import type { FC, HTMLAttributes, PropsWithChildren, ReactNode, MouseEventHandler } from "react";
+import { type FC, type HTMLAttributes, type PropsWithChildren, type ReactNode, type MouseEventHandler, forwardRef, ForwardedRef } from "react";
 import styles from "./EditStoryLayout.module.css";
 
 type EditStoryLayoutProps = {
@@ -54,3 +54,27 @@ export const EditStoryFrameCard: FC<EditStoryFrameCardProps> = ({
     </div>
   );
 };
+
+type DroppableStoryAreaLayoutProps = {
+  isOver?: boolean;
+};
+
+export const DroppableStoryAreaLayout = forwardRef(
+  ({
+    isOver,
+  }: DroppableStoryAreaLayoutProps, ref: ForwardedRef<HTMLDivElement>) => (
+    <div
+      ref={ref}
+      style={{
+        border: isOver ? "1px solid yellow" : "none",
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: -56,
+        height: 104,
+      }}
+    />
+  )
+);
+
+DroppableStoryAreaLayout.displayName = "DroppableStoryAreaLayout";

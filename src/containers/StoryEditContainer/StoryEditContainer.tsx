@@ -4,12 +4,16 @@ import { ChangeEventHandler, type FC } from "react";
 import type { ICta, IFrameContent, IStory } from "@/types";
 import { EditStoryFrameCard, EditStoryLayout, StoryFrame } from "@/components/isomorphic";
 import { useStoryEdit } from "./useStoryEdit";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DroppableStoryArea } from "./DroppableStoryArea";
+import { DraggableFrameBtn } from "./DraggableFrameBtn";
 
 type Props = {
   story: IStory;
 };
 
-export const StoryEditContainer: FC<Props> = ({ story }) => {
+const StoryEditContainer: FC<Props> = ({ story }) => {
   const {
     editingStory: {
       data: {
@@ -45,6 +49,11 @@ export const StoryEditContainer: FC<Props> = ({ story }) => {
         },
       }));
     }
+  };
+
+  const onFrameDrop = (type: string, frameIndex: number) => {
+    console.log({ type });
+    addFrameToStory("start", frameIndex);
   };
 
   const onStoryFrameClick = (frameId: string) => {
@@ -139,54 +148,70 @@ export const StoryEditContainer: FC<Props> = ({ story }) => {
           )} */}
           {!isFrameSelected && (
             <>
-              <button
-                onClick={() => addFrameToStory("start")}
-                style={{
-                  border: "none",
-                  borderRadius: 8,
-                  backgroundColor: "var(--bg)",
-                  cursor: "pointer",
-                  padding: 16,
-                  width: "100%",
-                  aspectRatio: "1/1"
-                }}
-              >
-                Página de Inicio
-              </button>
-              <button
-                onClick={() => addFrameToStory("back-and-next")}
-                style={{
-                  border: "none",
-                  borderRadius: 8,
-                  backgroundColor: "var(--bg)",
-                  cursor: "pointer",
-                  marginTop: 16,
-                  padding: 16,
-                  width: "100%",
-                  aspectRatio: "1/1"
-                }}
-              >
-                  Página de Anterior y Siguiente
-              </button>
+              <DraggableFrameBtn type="frame--start">
+                <button
+                  onClick={() => addFrameToStory("start")}
+                  style={{
+                    border: "none",
+                    borderRadius: 8,
+                    backgroundColor: "var(--bg)",
+                    cursor: "pointer",
+                    padding: 16,
+                    width: "100%",
+                    aspectRatio: "1/1"
+                  }}
+                >
+                  Página de Inicio
+                </button>
+              </DraggableFrameBtn>
+              <DraggableFrameBtn type="frame--back-and-next">
+                <button
+                  onClick={() => addFrameToStory("back-and-next")}
+                  style={{
+                    border: "none",
+                    borderRadius: 8,
+                    backgroundColor: "var(--bg)",
+                    cursor: "pointer",
+                    marginTop: 16,
+                    padding: 16,
+                    width: "100%",
+                    aspectRatio: "1/1"
+                  }}
+                >
+                    Página de Anterior y Siguiente
+                </button>
+              </DraggableFrameBtn>
             </>
           )}
         </>
       )}
-      board={frames.map(frame => (
-        <EditStoryFrameCard
-          key={frame.id}
-          active={frame.id === selectedFrameId}
-          onClick={() => onStoryFrameClick(frame.id)}
-          onClose={() => removeFrameFromStory(frame.id)}
-        >
-          <StoryFrame
-            frame={frame}
-            dispatchText={onFrameTextClick}
-            dispatchCta={onFrameCtaClick}
-          />
-        </EditStoryFrameCard>
-      ))}
+      board={(
+        <>
+          <DroppableStoryArea frameIndex={0} onDrop={onFrameDrop} framesLength={frames.length} />
+          {frames.map((frame, frameIndex) => (
+            <EditStoryFrameCard
+              key={frame.id}
+              active={frame.id === selectedFrameId}
+              onClick={() => onStoryFrameClick(frame.id)}
+              onClose={() => removeFrameFromStory(frame.id)}
+            >
+              <StoryFrame
+                frame={frame}
+                dispatchText={onFrameTextClick}
+                dispatchCta={onFrameCtaClick}
+              />
+              <DroppableStoryArea frameIndex={frameIndex + 1} onDrop={onFrameDrop} />
+            </EditStoryFrameCard>
+          ))}
+        </>
+      )}
       boardOnClick={resetFrame}
     />
   );
 };
+
+const StoryEditContainerWrapper = (props: Props) => {
+  return <DndProvider backend={HTML5Backend}><StoryEditContainer {...props} /></DndProvider>
+};
+
+export { StoryEditContainerWrapper as StoryEditContainer };
