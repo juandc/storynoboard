@@ -1,11 +1,12 @@
-import { MouseEventHandler, type FC } from "react";
-import type { IFrame } from "@/types";
+import { type MouseEventHandler, type FC } from "react";
+import type { ICta, IFrame, IFrameContent } from "@/types";
 import { Button, Text } from "@/components/isomorphic";
 import styles from "./StoryFrame.module.css";
 
 type Props = {
   frame: IFrame;
-  changeFrame: (frameId: string) => void;
+  dispatchText?: (id: string, text: IFrameContent["text"]) => void;
+  dispatchCta: (id: string, cta: ICta) => void;
 };
 
 export const StoryFrame: FC<Props> = ({
@@ -16,12 +17,19 @@ export const StoryFrame: FC<Props> = ({
       data,
     },
   },
-  changeFrame,
+  dispatchText,
+  dispatchCta,
 }) => {
-  const onClick = (nextFrameId: string): MouseEventHandler<HTMLButtonElement> => {
+  const onTextClick: MouseEventHandler<HTMLElement> = (e) => {
+    e.stopPropagation();
+    dispatchText?.(id, data.content.text);
+  };
+
+  const onBtnClick = (cta: ICta): MouseEventHandler<HTMLButtonElement> => {
     return (e) => {
       e.preventDefault();
-      changeFrame(nextFrameId);
+      e.stopPropagation();
+      dispatchCta(id, cta);
     };
   };
 
@@ -30,16 +38,14 @@ export const StoryFrame: FC<Props> = ({
       <div className={styles.content}>
         <div className={styles.content_bars} />
         <div className={styles.content_scroll}>
-          <Text>
-            {data.content.text}
-          </Text>
+          <Text onClick={onTextClick}>{data.content.text}</Text>
         </div>
       </div>
 
       <div className={styles.ctas}>
         {type === "start" && (
           <Button
-            onClick={onClick(data.cta.action.data)}
+            onClick={onBtnClick(data.cta)}
             variant="primary"
           >
             Empezar
@@ -48,13 +54,13 @@ export const StoryFrame: FC<Props> = ({
         {type === "back-and-next" && (
           <>
             <Button
-              onClick={onClick(data.cta.back.action.data)}
+              onClick={onBtnClick(data.cta.back)}
               variant="secondary"
             >
               Atrás
             </Button>
             <Button
-              onClick={onClick(data.cta.next.action.data)}
+              onClick={onBtnClick(data.cta.next)}
               variant="secondary"
             >
               Continuar

@@ -1,6 +1,8 @@
-import { type FC, type PropsWithChildren } from "react";
+import type { HTMLAttributes, FC, PropsWithChildren } from "react";
 import styles from "./Text.module.css";
 
-export const Text: FC<PropsWithChildren> = ({ children }) => {
-  return <p className={styles.Text}>{children}</p>;
+type Props = PropsWithChildren<HTMLAttributes<HTMLParagraphElement>>;
+
+export const Text: FC<Props> = ({ children, ...props }) => {
+  return <p className={styles.Text} {...props}>{children}</p>;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC, useState } from "react";
-import type { IFrame, IFramesDict } from "@/types";
+import type { ICta, IFrame, IFramesDict } from "@/types";
 import { StoryFrame } from "@/components/isomorphic/StoryFrame/StoryFrame";
 import { useSwipe } from "@/hooks/useSwipe";
 
@@ -13,27 +13,29 @@ type Props = {
 export const StoryContainer: FC<Props> = ({ framesDict, firstFrameId }) => {
   const [actualFrame, setActualFrame] = useState<IFrame>(() => framesDict[firstFrameId]);
 
-  const changeFrame = (frameId: string) => {
-    setActualFrame(framesDict[frameId]);
+  const dispatchCta = (id: string, cta: ICta) => {
+    if (cta.action.type === "frame-change") {
+      setActualFrame(framesDict[cta.action.data]);
+    }
   };
 
   useSwipe({
     onSwipeLeft: () => {
       if (actualFrame.data.type === "start") {
-        changeFrame(actualFrame.data.data.cta.action.data);
+        dispatchCta(actualFrame.id, actualFrame.data.data.cta);
       } else if (actualFrame.data.type === "back-and-next") {
-        changeFrame(actualFrame.data.data.cta.next.action.data);
+        dispatchCta(actualFrame.id, actualFrame.data.data.cta.next);
       }
     },
     onSwipeRight: () => {
       if (actualFrame.data.type === "back-and-next") {
-        changeFrame(actualFrame.data.data.cta.back.action.data);
+        dispatchCta(actualFrame.id, actualFrame.data.data.cta.back);
       }
     },
     deps: [actualFrame],
   });
 
   return (
-    <StoryFrame frame={actualFrame} changeFrame={changeFrame} />
+    <StoryFrame frame={actualFrame} dispatchCta={dispatchCta} />
   );
 };
