@@ -1,6 +1,6 @@
 .Button {
-  background-color: #A21DF4;
-  color: #FFF;
+  background-color: var(--primary);
+  color: var(--text-inverse);
   border: none;
   border-radius: 32px;
   font-size: 20px;

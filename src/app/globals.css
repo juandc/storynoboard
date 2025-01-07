@@ -1,3 +1,16 @@
+:root {
+  --pink-white-01: #FFF9FE;
+  --pink-white-02: #F5E2F9;
+  --violet-primary: #a21df4;
+  --violet-black: #190136;
+
+  --bg: var(--pink-white-01);
+  --text-primary: var(--violet-black);
+  --text-inverse: var(--pink-white-01);
+  --primary: var(--violet-primary);
+  --secondary: var(--pink-white-02);
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

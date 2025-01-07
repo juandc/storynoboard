@@ -1,3 +1,4 @@
 .Text {
+  color: var(--text-primary);
   font-size: 22px;
 }
