@@ -1,6 +1,7 @@
 .Button {
   background-color: var(--primary);
   color: var(--text-inverse);
+  cursor: pointer;
   border: none;
   border-radius: 32px;
   font-size: 20px;

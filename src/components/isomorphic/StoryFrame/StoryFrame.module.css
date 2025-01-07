@@ -1,8 +1,9 @@
 .story {
+  background-color: var(--bg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100dvh;
+  height: var(--story-frame-height, 100dvh);
 }
 
 .content {
@@ -35,9 +36,9 @@
 .content_bars::before {
   background-image: linear-gradient(
     180deg,
-    rgba(255,255,255) 0%,
-    rgba(255,255,255,0.75) 50%,
-    rgba(255,255,255,0) 100%
+    var(--pink-white-01) 0%,
+    var(--pink-white-01-75) 50%,
+    var(--pink-white-01-0) 100%
   );
   top: 0;
   height: 32px;
@@ -46,9 +47,9 @@
 .content_bars::after {
   background-image: linear-gradient(
     0deg,
-    rgba(255,255,255) 0%,
-    rgba(255,255,255,0.75) 25%,
-    rgba(255,255,255,0) 100%
+    var(--pink-white-01) 0%,
+    var(--pink-white-01-75) 25%,
+    var(--pink-white-01-0) 100%
   );
   bottom: 0;
   height: 56px;
