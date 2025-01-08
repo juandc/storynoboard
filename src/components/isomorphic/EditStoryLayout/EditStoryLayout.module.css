@@ -34,9 +34,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 16px;
   overflow: auto;
 
-  --story-frame-height: calc(100dvh - 160px);
+  --story-frame-height: 640px;
 }
 
 .phonelikewrapper {
@@ -44,14 +45,13 @@
   border: 1px solid var(--bg);
   border-radius: 8px;
   position: relative;
-  margin: 8px;
+  margin: 24px 8px;
   padding: 8px;
   width: 375px;
 }
 .phonelikewrapper__active {
   border-color: var(--text-primary);
 }
-
 .phonelikewrapper > button {
   background-color: var(--text-primary);
   border: none;
@@ -74,8 +74,33 @@
   opacity: 0;
   transition: opacity .15s ease-in;
 }
-
 .phonelikewrapper:hover > button,
 .phonelikewrapper__active > button {
   opacity: 1;
+}
+
+.droppableStory {
+  background-color: var(--secondary);
+  border-radius: 12px;
+  opacity:0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -52;
+  height: 84px;
+  z-index: 1;
+}
+.droppableStory__allowed {
+  opacity: 0.5;
+}
+.droppableStory__over {
+  background-color: var(--primary);
+}
+.droppableStory__first {
+  top: -24px;
+  bottom: unset;
+  height: 64px;
+}
+.droppableStory__only {
+  height: calc(100dvh - 64px);
 }

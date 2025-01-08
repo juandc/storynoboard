@@ -28,32 +28,28 @@ export const useStoryEdit = ({ story }: Props) => {
 
   const framesDict = transformStoryToFramesDict(editingStory);
   const actualFrame = selection.frameId ? framesDict[selection.frameId] : undefined;
-  
-  // const isCtaSelected = isFrameSelected && selection.element?.type === "cta";
 
   const resetFrame = () => {
-    // setSelectedFrameId(undefined);
-    // setSelectedElement(undefined);
     setSelection(initialSelectionState);
   };
 
-  const addFrameToStory = (type: IFrameTypes) => {
+  const addFrameToStory = (type: IFrameTypes, index?: number) => {
     let newFrame: IFrame | undefined = undefined;
     if (type === "start") newFrame = createEmptyStartFrame();
     if (type === "back-and-next") newFrame = createEmptyBackAndNextFrame();
     if (newFrame) {
-      setEditingStory(prev => ({
-        ...prev,
-        data: {
-          ...prev.data,
-          frames: [
-            ...prev.data.frames,
-            newFrame,
-          ],
-        }
-      }));
-      // setSelectedFrameId(newFrame.id);
-      // setSelectedElement(undefined);
+      setEditingStory(prev => {
+        const newFrames: IFrame[] = prev.data.frames;
+        if (typeof index === "undefined") index = newFrames.length - 1;
+        newFrames.splice(index, 0, newFrame);
+        return {
+          ...prev,
+          data: {
+            ...prev.data,
+            frames: newFrames,
+          }
+        };
+      });
       setSelection({ frameId: newFrame.id, element: undefined });
     }
   };
@@ -70,25 +66,21 @@ export const useStoryEdit = ({ story }: Props) => {
   };
 
   const addTextToFrame = (frameId: string, text: string) => {
-    if (frameId) {
-      setEditingStory(prev => {
-        const frameToEdit = getFrameById(prev.data.frames, frameId);
-        if (!frameToEdit) return prev;
-        else {
-          return {
-            ...prev,
-            data: {
-              ...prev.data,
-              frames: replaceFrameById(
-                prev.data.frames,
-                frameId,
-                editFrameText(frameToEdit, text) as IFrame // TODO: remove as
-              ),
-            },
-          };
-        }
-      });
-    }
+    setEditingStory(prev => {
+      const frameToEdit = getFrameById(prev.data.frames, frameId);
+      if (!frameToEdit) return prev;
+      return {
+        ...prev,
+        data: {
+          ...prev.data,
+          frames: replaceFrameById(
+            prev.data.frames,
+            frameId,
+            editFrameText(frameToEdit, text) as IFrame // TODO: remove as
+          ),
+        },
+      };
+    });
   };
 
   const addTextToSelectedFrame = (text: string) => {
