@@ -1,5 +1,5 @@
-import { IDndFrameTypes } from "@/types";
 import type { Ref, FC, PropsWithChildren } from "react";
+import type { IDndFrameTypes } from "@/types";
 import { useDrag } from "react-dnd";
 
 type Props = PropsWithChildren<{

@@ -1,4 +1,12 @@
-import { type FC, type HTMLAttributes, type PropsWithChildren, type ReactNode, type MouseEventHandler, forwardRef, ForwardedRef } from "react";
+import {
+  type FC,
+  type HTMLAttributes,
+  type PropsWithChildren,
+  type ReactNode,
+  type MouseEventHandler,
+  type ForwardedRef,
+  forwardRef,
+} from "react";
 import styles from "./EditStoryLayout.module.css";
 
 type EditStoryLayoutProps = {
