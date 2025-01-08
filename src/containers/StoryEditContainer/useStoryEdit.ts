@@ -34,14 +34,13 @@ export const useStoryEdit = ({ story }: Props) => {
   };
 
   const addFrameToStory = (type: IFrameTypes, index?: number) => {
-    console.log("Se llamó a addFrameToStory", Date.now());
     let newFrame: IFrame | undefined = undefined;
     if (type === "start") newFrame = createEmptyStartFrame();
     if (type === "back-and-next") newFrame = createEmptyBackAndNextFrame();
     if (newFrame) {
       setEditingStory(prev => {
         const newFrames: IFrame[] = prev.data.frames;
-        if (!index) index = newFrames.length - 1;
+        if (typeof index === "undefined") index = newFrames.length - 1;
         newFrames.splice(index, 0, newFrame);
         return {
           ...prev,

@@ -1,11 +1,17 @@
-import { type Ref, type FC } from "react";
+import type { Ref, FC } from "react";
 import { useDrop } from "react-dnd";
-// import { DroppableStoryAreaLayout } from "@/components/isomorphic";
+import type { IDndFrameTypes, IFrameTypes } from "@/types";
+import { DroppableStoryAreaLayout } from "@/components/isomorphic";
+import { dndFrameTypes } from "@/constants/dnd";
 
 type Props = {
   frameIndex: number;
   framesLength?: number;
-  onDrop: (type: string, index: number) => void;
+  onDrop: (type: IFrameTypes, index: number) => void;
+};
+
+type DropItem = {
+  type: IDndFrameTypes;
 };
 
 export const DroppableStoryArea: FC<Props> = ({
@@ -13,37 +19,25 @@ export const DroppableStoryArea: FC<Props> = ({
   framesLength,
   onDrop,
 }) => {
-  const [{ isOver }, dropRef] = useDrop(() => ({
-    accept: ["frame--start", "frame--back-and-next"],
-    drop: (item, monitor) => {
-      alert("Llegó un frame al " + frameIndex + item);
-      console.log({ item, monitor });
-      onDrop("start", frameIndex);
+  const [{ isOver, canDrop }, dropRef] = useDrop(() => ({
+    accept: Object.values(dndFrameTypes),
+    drop: ({ type }: DropItem) => {
+      const frameType = type.replace("frame--", "") as IFrameTypes;
+      onDrop(frameType, frameIndex);
     },
     collect: monitor => ({
-      isOver: !!monitor.isOver(),
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
     }),
   }), [frameIndex]);
 
   return (
-    <div
+    <DroppableStoryAreaLayout
       ref={dropRef as unknown as Ref<HTMLDivElement>}
-      onClick={e => e.stopPropagation()}
-      style={{
-        backgroundColor: isOver ? "var(--bg)" : "transparent",
-        opacity: .5,
-        position: "absolute",
-        left: 0,
-        right: 0,
-        top: frameIndex === 0 ? -24 : "unset",
-        bottom: frameIndex === 0 ? "unset" : -16,
-        height: (typeof framesLength !== "undefined" && !framesLength) ? "calc(100dvh - 64px)" : 48,
-        zIndex: 1,
-      }}
+      isOver={isOver}
+      canDrop={canDrop}
+      isFirst={frameIndex === 0}
+      isOnly={typeof framesLength !== "undefined" && framesLength === 0}
     />
   );
-
-  // return (
-  //   <DroppableStoryAreaLayout ref={dropRef} isOver={isOver} />
-  // );
 };

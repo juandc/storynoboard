@@ -57,22 +57,27 @@ export const EditStoryFrameCard: FC<EditStoryFrameCardProps> = ({
 
 type DroppableStoryAreaLayoutProps = {
   isOver?: boolean;
+  canDrop?: boolean;
+  isFirst?: boolean;
+  isOnly?: boolean;
 };
 
 export const DroppableStoryAreaLayout = forwardRef(
   ({
     isOver,
+    canDrop,
+    isFirst,
+    isOnly,
   }: DroppableStoryAreaLayoutProps, ref: ForwardedRef<HTMLDivElement>) => (
     <div
       ref={ref}
-      style={{
-        border: isOver ? "1px solid yellow" : "none",
-        position: "absolute",
-        left: 0,
-        right: 0,
-        bottom: -56,
-        height: 104,
-      }}
+      className={`
+        ${styles.droppableStory}
+        ${isOver && styles.droppableStory__over}
+        ${canDrop && styles.droppableStory__allowed}
+        ${isFirst && styles.droppableStory__first}
+        ${isOnly && styles.droppableStory__only}
+      `}
     />
   )
 );

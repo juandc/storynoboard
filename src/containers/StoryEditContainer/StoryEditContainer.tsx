@@ -1,13 +1,13 @@
 "use client";
 
 import { ChangeEventHandler, type FC } from "react";
-import type { ICta, IFrameContent, IStory } from "@/types";
-import { EditStoryFrameCard, EditStoryLayout, StoryFrame } from "@/components/isomorphic";
-import { useStoryEdit } from "./useStoryEdit";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import type { ICta, IFrameContent, IFrameTypes, IStory } from "@/types";
+import { EditStoryFrameCard, EditStoryLayout, StoryFrame } from "@/components/isomorphic";
 import { DroppableStoryArea } from "./DroppableStoryArea";
 import { DraggableFrameBtn } from "./DraggableFrameBtn";
+import { useStoryEdit } from "./useStoryEdit";
 
 type Props = {
   story: IStory;
@@ -51,9 +51,8 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
     }
   };
 
-  const onFrameDrop = (type: string, frameIndex: number) => {
-    console.log({ type });
-    addFrameToStory("start", frameIndex);
+  const onFrameDrop = (type: IFrameTypes, frameIndex: number) => {
+    addFrameToStory(type, frameIndex);
   };
 
   const onStoryFrameClick = (frameId: string) => {

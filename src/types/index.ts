@@ -10,3 +10,4 @@ export type {
   IFrame,
   IFramesDict,
 } from "./IFrame";
+export type { IDndFrameTypes } from "./IDnd";
