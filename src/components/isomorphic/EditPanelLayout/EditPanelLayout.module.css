@@ -1,0 +1,62 @@
+.editPanelModule > p {
+  font-weight: bold;
+  margin-top: 12px;
+}
+.editPanelModule:first-child > p {
+  margin-top: 4px;
+}
+
+.editPanelElement {
+  border-radius: 8px;
+  display: flex;
+  gap: 8;
+  margin: 0 -8px;
+  padding: 6px 8px;
+}
+.editPanelElement:hover {
+  background-color: var(--bg-elevated);
+}
+
+.editPanelElement > div,
+.editPanelElement > p {
+  width: 100%;
+}
+
+.editPanelElement__draggable > div,
+.editPanelElement__draggable > p {
+  cursor: grab;
+}
+
+.editPanelElement > button {
+  border: none;
+  border-radius: 6px;
+  background-color: var(--bg);
+  color: inherit;
+  cursor: pointer;
+  padding: 4px;
+  width: 32px;
+  aspect-ratio: 1 / 1;
+}
+.editPanelElement > button:hover:not(:disabled) {
+  background-color: var(--primary);
+  color: var(--text-inverse);
+}
+.editPanelElement > button:active:not(:disabled) {
+  opacity: 0.9;
+}
+.editPanelElement > button:disabled {
+  cursor: not-allowed;
+}
+
+.editPanelTextArea {
+  border: none;
+  border-radius: 8px;
+  background-color: var(--bg);
+  cursor: text;
+  margin-top: 8px;
+  padding: 16px;
+  min-height: 250px;
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+}

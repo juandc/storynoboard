@@ -57,7 +57,7 @@ export const EditStoryFrameCard: FC<EditStoryFrameCardProps> = ({
   const classes = `${styles.phonelikewrapper} ${active && styles.phonelikewrapper__active}`;
   return (
     <div className={classes} onClick={onCardClick} {...props}>
-      <button onClick={onCloseClick}>X</button>
+      <button onClick={onCloseClick}><span>+</span></button>
       {children}
     </div>
   );

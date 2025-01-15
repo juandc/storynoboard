@@ -57,8 +57,7 @@
   color: var(--bg-elevated-2);
   cursor: pointer;
   font-family: inherit;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,6 +66,7 @@
   right: 2px;
   height: 20px;
   width: 20px;
+  transform: rotate(45deg);
   z-index: 1;
 
   opacity: 0;
@@ -75,6 +75,15 @@
 .phonelikewrapper:hover > button,
 .phonelikewrapper__active > button {
   opacity: 1;
+}
+.phonelikewrapper > button span {
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: inherit;
+  padding-left: 0.4px;
+  padding-bottom: 4px;
 }
 
 .droppableStory {
