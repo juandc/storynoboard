@@ -85,6 +85,7 @@ export const LeftBar: FC = () => {
             value={actualFrame?.data.data.content.text}
             onChange={addInputTextToSelectedFrame}
             autoFocus
+            onFocus={(e) => e.target.selectionStart = e.target.selectionEnd = e.target.value.length}
           />
         </EditPanelModuleLayout>
       )}
