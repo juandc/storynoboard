@@ -40,7 +40,7 @@ export const useStoryEdit = ({ story }: Props) => {
     if (newFrame) {
       setEditingStory(prev => {
         const newFrames: IFrame[] = prev.data.frames;
-        if (typeof index === "undefined") index = newFrames.length - 1;
+        if (typeof index === "undefined") index = newFrames.length;
         newFrames.splice(index, 0, newFrame);
         return {
           ...prev,
@@ -65,10 +65,11 @@ export const useStoryEdit = ({ story }: Props) => {
     resetFrame();
   };
 
-  const addTextToFrame = (frameId: string, text: string) => {
+  const addTextToFrame = (frameId: string, text: string, ifEmpty: boolean = false) => {
     setEditingStory(prev => {
       const frameToEdit = getFrameById(prev.data.frames, frameId);
       if (!frameToEdit) return prev;
+      if (ifEmpty && frameToEdit.data.data.content.text.trim().length) return prev;
       return {
         ...prev,
         data: {

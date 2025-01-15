@@ -1,3 +1,4 @@
-import type { IFrameTypes } from "@/types";
+import type { IFrameTypes, IFrameContentTypes } from "./IFrame";
 
-export type IDndFrameTypes = `frame--${IFrameTypes}`;
+export type IDndFrameTypes = `btnFrame--${IFrameTypes}`;
+export type IDndContentTypes = `btnContent--${IFrameContentTypes}`;

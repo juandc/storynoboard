@@ -1,4 +1,4 @@
-import { type MouseEventHandler, type FC } from "react";
+import { type MouseEventHandler, type FC, type ReactNode } from "react";
 import type { ICta, IFrame, IFrameContent } from "@/types";
 import { Button, Text } from "@/components/isomorphic";
 import styles from "./StoryFrame.module.css";
@@ -7,6 +7,7 @@ type Props = {
   frame: IFrame;
   dispatchText?: (id: string, text: IFrameContent["text"]) => void;
   dispatchCta: (id: string, cta: ICta) => void;
+  textWrapper?: (children: ReactNode) => ReactNode;
 };
 
 export const StoryFrame: FC<Props> = ({
@@ -19,6 +20,7 @@ export const StoryFrame: FC<Props> = ({
   },
   dispatchText,
   dispatchCta,
+  textWrapper = (c: ReactNode) => c,
 }) => {
   const onTextClick: MouseEventHandler<HTMLElement> = (e) => {
     e.stopPropagation();
@@ -33,14 +35,18 @@ export const StoryFrame: FC<Props> = ({
     };
   };
 
+  const renderText = (
+    <div className={styles.content}>
+      <div className={styles.content_bars} />
+      <div className={styles.content_scroll}>
+        <Text onClick={onTextClick}>{data.content.text}</Text>
+      </div>
+    </div>
+  );
+
   return (
     <div key={id} className={styles.story}>
-      <div className={styles.content}>
-        <div className={styles.content_bars} />
-        <div className={styles.content_scroll}>
-          <Text onClick={onTextClick}>{data.content.text}</Text>
-        </div>
-      </div>
+      {textWrapper(renderText)}
 
       <div className={styles.ctas}>
         {type === "start" && (

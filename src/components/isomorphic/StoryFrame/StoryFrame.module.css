@@ -55,6 +55,10 @@
   height: 56px;
 }
 
+:global([class*="droppableContent__allowed"]) .content_bars {
+  opacity: 0;
+}
+
 .ctas {
   display: flex;
   align-items: center;

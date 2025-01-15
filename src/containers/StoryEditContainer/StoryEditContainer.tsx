@@ -1,11 +1,13 @@
 "use client";
 
-import { ChangeEventHandler, type FC } from "react";
+import { type ChangeEventHandler, type FC, Fragment } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import type { ICta, IFrameContent, IFrameTypes, IStory } from "@/types";
+import type { ICta, IFrameContent, IFrameContentTypes, IFrameTypes, IStory } from "@/types";
+import { dndContentTypes, dndFrameTypes } from "@/constants/dnd";
 import { EditStoryFrameCard, EditStoryLayout, StoryFrame } from "@/components/isomorphic";
 import { DroppableStoryArea } from "./DroppableStoryArea";
+import { DroppableContentArea } from "./DroppableContentArea";
 import { DraggableFrameBtn } from "./DraggableFrameBtn";
 import { useStoryEdit } from "./useStoryEdit";
 
@@ -34,7 +36,7 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
     addTextToSelectedFrame,
   } = useStoryEdit({ story });
 
-  const actualFrameHasText = actualFrame?.data.data.content.text.length;
+  const actualFrameHasText = actualFrame?.data.data.content.text.trim().length;
   const isFrameSelected = typeof selectedFrameId !== "undefined";
   const isTextSelected = isFrameSelected && selectedElement?.type === "text";
 
@@ -53,6 +55,12 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
 
   const onFrameDrop = (type: IFrameTypes, frameIndex: number) => {
     addFrameToStory(type, frameIndex);
+  };
+
+  const onContentDrop = (type: IFrameContentTypes, id: string) => {
+    if (type === "text") {
+      addTextToFrame(id, "texto de ejemplo", true);
+    }
   };
 
   const onStoryFrameClick = (frameId: string) => {
@@ -99,7 +107,7 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
           {isFrameSelected && (
             <>
               <p>Contenido:</p>
-              <button
+              {/* <button
                 onClick={() => addTextToSelectedFrame("texto de ejemplo")}
                 disabled={!!actualFrameHasText}
                 style={{
@@ -111,7 +119,22 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
                   width: "100%",
                   aspectRatio: "1/1"
                 }}
-              >Texto</button>
+              >Texto</button> */}
+              <DraggableFrameBtn type={dndContentTypes.BTN_TEXT}>
+                <button
+                  onClick={() => addTextToSelectedFrame("texto de ejemplo")}
+                  disabled={!!actualFrameHasText}
+                  style={{
+                    border: "none",
+                    borderRadius: 8,
+                    backgroundColor: "var(--bg)",
+                    cursor: actualFrameHasText ? "no-drop" : "pointer",
+                    padding: 16,
+                    width: "100%",
+                    aspectRatio: "1/1"
+                  }}
+                >Texto</button>
+              </DraggableFrameBtn>
             </>
           )}
           {isFrameSelected && isTextSelected && (
@@ -147,7 +170,7 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
           )} */}
           {!isFrameSelected && (
             <>
-              <DraggableFrameBtn type="frame--start">
+              <DraggableFrameBtn type={dndFrameTypes.BTN_FRAME_START}>
                 <button
                   onClick={() => addFrameToStory("start")}
                   style={{
@@ -163,7 +186,7 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
                   Página de Inicio
                 </button>
               </DraggableFrameBtn>
-              <DraggableFrameBtn type="frame--back-and-next">
+              <DraggableFrameBtn type={dndFrameTypes.BTN_FRAME_BACK_NEXT}>
                 <button
                   onClick={() => addFrameToStory("back-and-next")}
                   style={{
@@ -188,19 +211,27 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
         <>
           <DroppableStoryArea frameIndex={0} onDrop={onFrameDrop} framesLength={frames.length} />
           {frames.map((frame, frameIndex) => (
-            <EditStoryFrameCard
-              key={frame.id}
-              active={frame.id === selectedFrameId}
-              onClick={() => onStoryFrameClick(frame.id)}
-              onClose={() => removeFrameFromStory(frame.id)}
-            >
-              <StoryFrame
-                frame={frame}
-                dispatchText={onFrameTextClick}
-                dispatchCta={onFrameCtaClick}
-              />
+            <Fragment key={frame.id}>
+              <EditStoryFrameCard
+                active={frame.id === selectedFrameId}
+                onClick={() => onStoryFrameClick(frame.id)}
+                onClose={() => removeFrameFromStory(frame.id)}
+              >
+                <StoryFrame
+                  frame={frame}
+                  dispatchText={onFrameTextClick}
+                  dispatchCta={onFrameCtaClick}
+                  textWrapper={(c) => (
+                    <DroppableContentArea
+                      frameId={frame.id}
+                      frameHasContent={!!frame.data.data.content.text.trim().length}
+                      onDrop={onContentDrop}
+                    >{c}</DroppableContentArea>
+                  )}
+                />
+              </EditStoryFrameCard>
               <DroppableStoryArea frameIndex={frameIndex + 1} onDrop={onFrameDrop} />
-            </EditStoryFrameCard>
+            </Fragment>
           ))}
         </>
       )}

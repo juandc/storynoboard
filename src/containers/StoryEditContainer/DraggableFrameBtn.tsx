@@ -1,9 +1,10 @@
 import type { Ref, FC, PropsWithChildren } from "react";
-import type { IDndFrameTypes } from "@/types";
+import type { IDndFrameTypes, IDndContentTypes } from "@/types";
 import { useDrag } from "react-dnd";
+import {  } from "@/types/IDnd";
 
 type Props = PropsWithChildren<{
-  type: IDndFrameTypes;
+  type: IDndFrameTypes | IDndContentTypes;
 }>;
 
 export const DraggableFrameBtn: FC<Props> = ({ children, type }) => {

@@ -2,6 +2,7 @@ export type { IStory, IStoryApi } from "./IStory";
 export type {
   ICta,
   IFrameContent,
+  IFrameContentTypes,
   IFrameTypes,
   IStartFrame,
   IRadioChoiceFrame,
@@ -10,4 +11,4 @@ export type {
   IFrame,
   IFramesDict,
 } from "./IFrame";
-export type { IDndFrameTypes } from "./IDnd";
+export type { IDndFrameTypes, IDndContentTypes } from "./IDnd";
