@@ -40,7 +40,7 @@ export const useStoryEdit = ({ story }: Props) => {
     if (newFrame) {
       setEditingStory(prev => {
         const newFrames: IFrame[] = prev.data.frames;
-        if (typeof index === "undefined") index = newFrames.length - 1;
+        if (typeof index === "undefined") index = newFrames.length;
         newFrames.splice(index, 0, newFrame);
         return {
           ...prev,
