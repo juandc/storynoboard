@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEventHandler, type FC } from "react";
+import { type ChangeEventHandler, Fragment, type FC } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import type { ICta, IFrameContent, IFrameTypes, IStory } from "@/types";
@@ -188,19 +188,20 @@ const StoryEditContainer: FC<Props> = ({ story }) => {
         <>
           <DroppableStoryArea frameIndex={0} onDrop={onFrameDrop} framesLength={frames.length} />
           {frames.map((frame, frameIndex) => (
-            <EditStoryFrameCard
-              key={frame.id}
-              active={frame.id === selectedFrameId}
-              onClick={() => onStoryFrameClick(frame.id)}
-              onClose={() => removeFrameFromStory(frame.id)}
-            >
-              <StoryFrame
-                frame={frame}
-                dispatchText={onFrameTextClick}
-                dispatchCta={onFrameCtaClick}
-              />
+            <Fragment key={frame.id}>
+              <EditStoryFrameCard
+                active={frame.id === selectedFrameId}
+                onClick={() => onStoryFrameClick(frame.id)}
+                onClose={() => removeFrameFromStory(frame.id)}
+              >
+                <StoryFrame
+                  frame={frame}
+                  dispatchText={onFrameTextClick}
+                  dispatchCta={onFrameCtaClick}
+                />
+              </EditStoryFrameCard>
               <DroppableStoryArea frameIndex={frameIndex + 1} onDrop={onFrameDrop} />
-            </EditStoryFrameCard>
+            </Fragment>
           ))}
         </>
       )}

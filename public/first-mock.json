@@ -33,7 +33,7 @@
             "type": "start",
             "data": {
               "cta": {
-                "text": "Continuar",
+                "text": "Empezar",
                 "action": {
                   "type": "frame-change",
                   "data": "frame-2"
@@ -42,71 +42,6 @@
               "content": {
                 "asset": null,
                 "text": "Había una vez..."
-              }
-            }
-          }
-        },
-        {
-          "id": "frame-2",
-          "type": "frame",
-          "data": {
-            "type": "back-and-next",
-            "data": {
-              "cta": {
-                "back": {
-                  "text": "Volver",
-                  "action": {
-                    "type": "frame-change",
-                    "data": "frame-1"
-                  }
-                },
-                "next": {
-                  "text": "Continuar",
-                  "action": {
-                    "type": "frame-change",
-                    "data": "frame-3"
-                  }
-                }
-              },
-              "content": {
-                "asset": null,
-                "text": "Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON. Había una vez una API estática, que servía datos de historias en formato JSON."
-              }
-            }
-          }
-        },
-        {
-          "id": "frame-3",
-          "type": "frame",
-          "data": {
-            "type": "radio-choice",
-            "data": {
-              "cta": [
-                {
-                  "text": "Opción 1",
-                  "action": {
-                    "type": "frame-change",
-                    "data": "frame-2"
-                  }
-                },
-                {
-                  "text": "Opción 2",
-                  "action": {
-                    "type": "frame-change",
-                    "data": "frame-3"
-                  }
-                },
-                {
-                  "text": "Opción 3",
-                  "action": {
-                    "type": "frame-change",
-                    "data": "frame-4"
-                  }
-                }
-              ],
-              "content": {
-                "asset": null,
-                "text": "Había una vez"
               }
             }
           }
