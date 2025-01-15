@@ -22,7 +22,7 @@ export const DroppableStoryArea: FC<Props> = ({
   const [{ isOver, canDrop }, dropRef] = useDrop(() => ({
     accept: Object.values(dndFrameTypes),
     drop: ({ type }: DropItem) => {
-      const frameType = type.replace("frame--", "") as IFrameTypes;
+      const frameType = type.replace("btnFrame--", "") as IFrameTypes;
       onDrop(frameType, frameIndex);
     },
     collect: monitor => ({

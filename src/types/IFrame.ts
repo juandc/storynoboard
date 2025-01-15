@@ -11,6 +11,8 @@ export type IFrameContent = {
   asset?: unknown;
 };
 
+export type IFrameContentTypes = keyof IFrameContent;
+
 export type IFrameTypes = "start" | "back-and-next" | "radio-choice";
 
 interface IBaseFrameData<T> {

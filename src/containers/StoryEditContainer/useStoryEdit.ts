@@ -65,10 +65,11 @@ export const useStoryEdit = ({ story }: Props) => {
     resetFrame();
   };
 
-  const addTextToFrame = (frameId: string, text: string) => {
+  const addTextToFrame = (frameId: string, text: string, ifEmpty: boolean = false) => {
     setEditingStory(prev => {
       const frameToEdit = getFrameById(prev.data.frames, frameId);
       if (!frameToEdit) return prev;
+      if (ifEmpty && frameToEdit.data.data.content.text.length) return prev;
       return {
         ...prev,
         data: {

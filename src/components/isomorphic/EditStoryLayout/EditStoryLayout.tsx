@@ -91,3 +91,28 @@ export const DroppableStoryAreaLayout = forwardRef(
 );
 
 DroppableStoryAreaLayout.displayName = "DroppableStoryAreaLayout";
+
+type DroppableContentAreaLayoutProps = PropsWithChildren<{
+  isOver?: boolean;
+  canDrop?: boolean;
+}>;
+
+export const DroppableContentAreaLayout = forwardRef(
+  ({
+    children,
+    isOver,
+    canDrop,
+  }: DroppableContentAreaLayoutProps, ref: ForwardedRef<HTMLDivElement>) => (
+    <div
+      ref={ref}
+      className={`
+        ${styles.droppableContent}
+        ${isOver && styles.droppableContent__over}
+        ${canDrop && styles.droppableContent__allowed}
+      `}
+      style={{ height: "100%" }}
+    >{children}</div>
+  )
+);
+
+DroppableContentAreaLayout.displayName = "DroppableContentAreaLayout";

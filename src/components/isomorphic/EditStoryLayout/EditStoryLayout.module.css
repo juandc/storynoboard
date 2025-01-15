@@ -98,3 +98,18 @@
 .droppableStory__only {
   height: calc(100dvh - (64px + 16px));
 }
+
+.droppableContent {
+  border-radius: 12px;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.droppableContent__allowed {
+  background-color: var(--secondary);
+  opacity: 0.5;
+}
+.droppableContent__over {
+  background-color: var(--primary);
+  opacity: 0.5;
+}
