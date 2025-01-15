@@ -1,11 +1,22 @@
-import { useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  type FC,
+  type PropsWithChildren,
+  createContext,
+  useState,
+  useContext,
+} from "react";
 import type { ICta, IFrame, IFrameContent, IFrameTypes, IStory } from "@/types";
 import { transformStoryToFramesDict } from "@/services/getStory";
-import { createEmptyBackAndNextFrame, createEmptyStartFrame, editFrameText, getFrameById, removeFrameById, replaceFrameById } from "./storyEditUtils";
-
-type Props = {
-  story: IStory;
-};
+import {
+  createEmptyBackAndNextFrame,
+  createEmptyStartFrame,
+  editFrameText,
+  getFrameById,
+  removeFrameById,
+  replaceFrameById,
+} from "./storyEditUtils";
 
 type SelectedElement = {
   type: "text";
@@ -22,7 +33,23 @@ type SelectionState = {
 
 const initialSelectionState = { frameId: undefined, element: undefined };
 
-export const useStoryEdit = ({ story }: Props) => {
+type StoryEditState = {
+  editingStory: IStory;
+  selection: SelectionState;
+  setSelection: Dispatch<SetStateAction<SelectionState>>;
+  actualFrame: IFrame | undefined;
+  resetFrame: () => void;
+  addFrameToStory: (type: IFrameTypes, index?: number) => void;
+  removeFrameFromStory: (frameId: string) => void;
+  addTextToFrame: (frameId: string, text: string, ifEmpty?: boolean) => void;
+  addTextToSelectedFrame: (text: string) => void;
+};
+
+export const StoryEditContext = createContext<StoryEditState | undefined>(undefined);
+
+type Props = PropsWithChildren<{ story: IStory; }>;
+
+export const StoryEditProvider: FC<Props> = ({ children, story }) => {
   const [editingStory, setEditingStory] = useState<IStory>(story);
   const [selection, setSelection] = useState<SelectionState>(initialSelectionState);
 
@@ -97,7 +124,7 @@ export const useStoryEdit = ({ story }: Props) => {
     }
   };
 
-  return {
+  const state: StoryEditState = {
     editingStory,
     selection,
     setSelection,
@@ -108,4 +135,18 @@ export const useStoryEdit = ({ story }: Props) => {
     addTextToFrame,
     addTextToSelectedFrame,
   };
+
+  return (
+    <StoryEditContext.Provider value={state}>
+      {children}
+    </StoryEditContext.Provider>
+  );
+};
+
+export const useStoryEdit = () => {
+  const context = useContext(StoryEditContext);
+  if (!context) {
+    throw new Error("useStoryEdit must be used within a StoryEditProvider");
+  }
+  return context;
 };

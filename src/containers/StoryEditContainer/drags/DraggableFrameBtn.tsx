@@ -1,7 +1,6 @@
 import type { Ref, FC, PropsWithChildren } from "react";
 import type { IDndFrameTypes, IDndContentTypes } from "@/types";
 import { useDrag } from "react-dnd";
-import {  } from "@/types/IDnd";
 
 type Props = PropsWithChildren<{
   type: IDndFrameTypes | IDndContentTypes;
