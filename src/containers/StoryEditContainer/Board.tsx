@@ -9,6 +9,7 @@ import { EditStoryFrameCard, StoryFrame } from "@/components/isomorphic";
 import { DroppableStoryArea } from "./drops/DroppableStoryArea";
 import { DroppableContentArea } from "./drops/DroppableContentArea";
 import { useStoryEdit } from "./StoryEditContext";
+import { getFrameById } from "./storyEditUtils";
 
 export const Board: FC = () => {
   const {
@@ -33,6 +34,13 @@ export const Board: FC = () => {
   const onContentDrop = (type: IFrameContentTypes, id: string) => {
     if (type === "text") {
       addTextToFrame(id, "texto de ejemplo", true);
+      setSelection({
+        frameId: id,
+        element: {
+          type: "text",
+          data: getFrameById(frames, id)?.data.data.content.text || "",
+        },
+      });
     }
   };
 
