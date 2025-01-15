@@ -110,7 +110,6 @@ export const DroppableContentAreaLayout = forwardRef(
         ${isOver && styles.droppableContent__over}
         ${canDrop && styles.droppableContent__allowed}
       `}
-      style={{ height: "100%" }}
     >{children}</div>
   )
 );

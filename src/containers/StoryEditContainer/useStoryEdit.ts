@@ -69,7 +69,7 @@ export const useStoryEdit = ({ story }: Props) => {
     setEditingStory(prev => {
       const frameToEdit = getFrameById(prev.data.frames, frameId);
       if (!frameToEdit) return prev;
-      if (ifEmpty && frameToEdit.data.data.content.text.length) return prev;
+      if (ifEmpty && frameToEdit.data.data.content.text.trim().length) return prev;
       return {
         ...prev,
         data: {
