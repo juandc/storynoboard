@@ -6,6 +6,11 @@ import { EditPanelElementLayout, EditPanelModuleLayout, EditPanelTextAreaLayout 
 
 export const LeftBar: FC = () => {
   const {
+    editingStory: {
+      data: {
+        frames,
+      },
+    },
     selection: {
       frameId: selectedFrameId,
       element: selectedElement,
@@ -45,7 +50,6 @@ export const LeftBar: FC = () => {
               {c}
             </DraggableFrameBtn>
           )}
-          btnDisabled={!!actualFrameHasText}
           btnOnClick={() => addFrameToStory("start")}
         />
         <EditPanelElementLayout
@@ -55,23 +59,24 @@ export const LeftBar: FC = () => {
               {c}
             </DraggableFrameBtn>
           )}
-          btnDisabled={!!actualFrameHasText}
           btnOnClick={() => addFrameToStory("back-and-next")}
         />
       </EditPanelModuleLayout>
 
-      <EditPanelModuleLayout label="Elementos">
-        <EditPanelElementLayout
-          label="Texto"
-          labelWrapper={(c) => (
-            <DraggableFrameBtn type={dndContentTypes.BTN_TEXT}>
-              {c}
-            </DraggableFrameBtn>
-          )}
-          btnDisabled={!!actualFrameHasText || !isFrameSelected}
-          btnOnClick={() => addTextToSelectedFrame("texto de ejemplo")}
-        />
-      </EditPanelModuleLayout>
+      {frames.length > 0 && (
+        <EditPanelModuleLayout label="Elementos">
+          <EditPanelElementLayout
+            label="Texto"
+            labelWrapper={(c) => (
+              <DraggableFrameBtn type={dndContentTypes.BTN_TEXT}>
+                {c}
+              </DraggableFrameBtn>
+            )}
+            btnDisabled={!!actualFrameHasText || !isFrameSelected}
+            btnOnClick={() => addTextToSelectedFrame("texto de ejemplo")}
+          />
+        </EditPanelModuleLayout>
+      )}
 
       {isFrameSelected && isTextSelected && (
         <EditPanelModuleLayout label="Editar texto">
@@ -83,6 +88,7 @@ export const LeftBar: FC = () => {
           />
         </EditPanelModuleLayout>
       )}
+
       {/* {isFrameSelected && isCtaSelected && (
         <>
           <p>{selectedElement?.type}</p>
