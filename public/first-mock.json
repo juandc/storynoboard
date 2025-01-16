@@ -69,8 +69,7 @@
                   "id": "0.8357204804093923",
                   "text": "Atrás",
                   "action": {
-                    "type": "frame-change",
-                    "data": "frame-1"
+                    "type": "past-frame"
                   }
                 }
               }
@@ -99,8 +98,7 @@
                   "id": "0.7097838461637487",
                   "text": "Atrás",
                   "action": {
-                    "type": "frame-change",
-                    "data": "0.7394365160832381"
+                    "type": "past-frame"
                   }
                 }
               }
@@ -129,8 +127,7 @@
                   "id": "0.4592616690413269",
                   "text": "Atrás",
                   "action": {
-                    "type": "frame-change",
-                    "data": "0.8874827457130134"
+                    "type": "past-frame"
                   }
                 }
               }

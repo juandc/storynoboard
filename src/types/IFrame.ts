@@ -1,10 +1,15 @@
+export type ICtaAction = {
+  type: "frame-change";
+  data: string;
+} | {
+  type: "past-frame";
+  data: undefined;
+};
+
 export type ICta = {
   id: string;
   text: string;
-  action: {
-    type: "frame-change";
-    data: string;
-  };
+  action: ICtaAction;
 };
 
 export type IFrameContent = {

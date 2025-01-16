@@ -40,8 +40,8 @@ export const createEmptyBackAndNextFrame = (): IFrame => {
           id: `${Math.random()}`,
           text: "Atrás",
           action: {
-            type: "frame-change", // TODO: should change to "past-frame" or something like that
-            data: ""
+            type: "past-frame",
+            data: undefined,
           },
         },
         next: {
