@@ -49,15 +49,24 @@
   opacity: 0.5;
 }
 
-.editPanelTextArea {
+.editPanelTextArea,
+.editPanelInput,
+.editPanelSelect {
   border: none;
   border-radius: 8px;
   background-color: var(--bg);
   cursor: text;
   margin-top: 8px;
   padding: 16px;
+  width: 100%;
+}
+
+.editPanelTextArea {
   min-height: 250px;
   min-width: 100%;
   max-width: 100%;
-  width: 100%;
+}
+
+.editPanelSelect {
+  cursor: pointer;
 }

@@ -12,4 +12,6 @@ export {
   EditPanelModuleLayout,
   EditPanelElementLayout,
   EditPanelTextAreaLayout,
+  EditPanelInputLayout,
+  EditPanelSelectLayout,
 } from "./EditPanelLayout/EditPanelLayout";

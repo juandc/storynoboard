@@ -1,8 +1,14 @@
-import { ChangeEventHandler, type FC } from "react";
+import type { ChangeEventHandler, FC } from "react";
 import { useStoryEdit } from "./StoryEditContext";
 import { DraggableFrameBtn } from "./drags/DraggableFrameBtn";
 import { dndContentTypes, dndFrameTypes } from "@/constants/dnd";
-import { EditPanelElementLayout, EditPanelModuleLayout, EditPanelTextAreaLayout } from "@/components/isomorphic";
+import {
+  EditPanelElementLayout,
+  EditPanelInputLayout,
+  EditPanelModuleLayout,
+  EditPanelTextAreaLayout,
+  EditPanelSelectLayout,
+} from "@/components/isomorphic";
 
 export const LeftBar: FC = () => {
   const {
@@ -41,6 +47,11 @@ export const LeftBar: FC = () => {
         },
       }));
     }
+  };
+
+  type ChangeSelectaEvent = ChangeEventHandler<HTMLSelectElement>;
+  const onChangeFrameChangeSelect: ChangeSelectaEvent = (e) => {
+    addFrameChangeToSelectedCta(e.target.value);
   };
 
   return (
@@ -87,27 +98,23 @@ export const LeftBar: FC = () => {
             key={`${actualFrame?.id}-editText`}
             value={actualFrame?.data.data.content.text}
             onChange={addInputTextToSelectedFrame}
-            autoFocus
-            onFocus={(e) => e.target.selectionStart = e.target.selectionEnd = e.target.value.length}
           />
         </EditPanelModuleLayout>
       )}
 
       {isCtaSelected && (
         <EditPanelModuleLayout label="Editar botón">
-          <pre>{JSON.stringify(selectedElement, null, 1)}</pre>
-          <input
+          <EditPanelInputLayout
             key={`${selectedElement.data.id}-editTextCta`}
             type="text"
             value={selectedElement.data.text}
-            onChange={(e) => addTextToSelectedCta(e.target.value)}
-            autoFocus
-            onFocus={(e) => e.target.selectionStart = e.target.selectionEnd = e.target.value.length}
+            onChange={(e) => addTextToSelectedCta(e.currentTarget.value)}
           />
+
           {selectedElement.data.action.type === "frame-change" && (
-            <select
+            <EditPanelSelectLayout
               value={selectedElement.data.action.data}
-              onChange={(e) => addFrameChangeToSelectedCta(e.target.value)}
+              onChange={onChangeFrameChangeSelect}
             >
               {!selectedElement.data.action.data.length && (
                 <option key={"empty-ctaSelect"}>Seleccionar</option>
@@ -120,7 +127,7 @@ export const LeftBar: FC = () => {
                   </option>
                 );
               })}
-            </select>
+            </EditPanelSelectLayout>
           )}
         </EditPanelModuleLayout>
       )}

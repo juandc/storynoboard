@@ -50,8 +50,47 @@ export const EditPanelTextAreaLayout: FC<EditPanelTextAreaLayoutProps> = ({
   ...props
 }) => (
   <textarea
+    onFocus={(e) => e.target.selectionStart = e.target.selectionEnd = e.target.value.length}
+    autoFocus
     {...props}
     value={value}
     className={`${styles.editPanelTextArea} ${className}`}
+  />
+);
+
+type EditPanelInputLayoutProps = {
+  value: string | undefined;
+  type?: "text" | "number" | "password";
+} & HTMLAttributes<HTMLInputElement>;
+
+export const EditPanelInputLayout: FC<EditPanelInputLayoutProps> = ({
+  value,
+  type = "text",
+  className,
+  ...props
+}) => (
+  <input
+    onFocus={(e) => e.target.selectionStart = e.target.selectionEnd = e.target.value.length}
+    autoFocus
+    type={type}
+    {...props}
+    value={value}
+    className={`${styles.editPanelInput} ${className}`}
+  />
+);
+
+type EditPanelSelectLayoutProps = PropsWithChildren<{
+  value: string | undefined;
+}> & HTMLAttributes<HTMLSelectElement>;
+
+export const EditPanelSelectLayout: FC<EditPanelSelectLayoutProps> = ({
+  value,
+  className,
+  ...props
+}) => (
+  <select
+    {...props}
+    value={value}
+    className={`${styles.editPanelSelect} ${className}`}
   />
 );
