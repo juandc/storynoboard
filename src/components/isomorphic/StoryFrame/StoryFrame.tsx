@@ -1,6 +1,7 @@
 import { type MouseEventHandler, type FC, type ReactNode } from "react";
 import type { ICta, IFrame, IFrameContent } from "@/types";
 import { Button, Text } from "@/components/isomorphic";
+import { RadioChoiceCta } from "./RadioChoiceCta";
 import styles from "./StoryFrame.module.css";
 
 type Props = {
@@ -72,6 +73,9 @@ export const StoryFrame: FC<Props> = ({
               {data.cta.next.text}
             </Button>
           </>
+        )}
+        {type === "radio-choice" && (
+          <RadioChoiceCta cta={data.cta} onBtnClick={onBtnClick} />
         )}
       </div>
     </div>

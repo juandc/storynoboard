@@ -122,7 +122,7 @@
                   "text": "Siguiente",
                   "action": {
                     "type": "frame-change",
-                    "data": "frame-1"
+                    "data": "0.11110217598753375"
                   }
                 },
                 "back": {
@@ -134,6 +134,44 @@
                   }
                 }
               }
+            }
+          }
+        },
+        {
+          "id": "0.11110217598753375",
+          "type": "frame",
+          "data": {
+            "type": "radio-choice",
+            "data": {
+              "content": {
+                "text": "5th"
+              },
+              "cta": [
+                {
+                  "id": "0.5th-opt1",
+                  "text": "Opción 1",
+                  "action": {
+                    "type": "frame-change",
+                    "data": "frame-1"
+                  }
+                },
+                {
+                  "id": "0.5th-opt2",
+                  "text": "Opción 2",
+                  "action": {
+                    "type": "frame-change",
+                    "data": "0.8874827457130134"
+                  }
+                },
+                {
+                  "id": "0.5th-opt3",
+                  "text": "Opción 3",
+                  "action": {
+                    "type": "frame-change",
+                    "data": "0.05610217598753375"
+                  }
+                }
+              ]
             }
           }
         }
