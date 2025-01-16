@@ -19,7 +19,7 @@ export const createEmptyStartFrame = (): IFrame => {
         text: "Empezar",
         action: {
           type: "frame-change",
-          data: "..."
+          data: ""
         },
       },
     }
