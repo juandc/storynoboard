@@ -1,17 +1,28 @@
 "use client";
 
-import { useState, type FC, type MouseEventHandler } from "react";
+import { useState, type FC, type MouseEvent } from "react";
 import type { ICta } from "@/types";
+import { useSwipe } from "@/hooks/useSwipe";
 import { Button } from "@/components/isomorphic";
 import styles from "./StoryFrame.module.css";
 
 type Props = {
   cta: ICta[];
-  onBtnClick: (cta: ICta) => MouseEventHandler<HTMLButtonElement>;
+  onBtnClick: (cta: ICta) => (e?: MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const RadioChoiceCta: FC<Props> = ({ cta: ctas, onBtnClick }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  useSwipe({
+    onSwipeLeft: () => {
+      setIsOpen(true);
+    },
+    onSwipeRight: () => {
+      setIsOpen(false);
+    },
+    deps: [],
+  });
 
   return (
     <div className={styles.ctas_radioChoice}>

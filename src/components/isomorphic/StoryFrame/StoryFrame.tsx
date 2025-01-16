@@ -1,6 +1,8 @@
-import { type MouseEventHandler, type FC, type ReactNode } from "react";
+import type { MouseEventHandler, MouseEvent, FC, ReactNode } from "react";
 import type { ICta, IFrame, IFrameContent } from "@/types";
-import { Button, Text } from "@/components/isomorphic";
+import { Text } from "@/components/isomorphic";
+import { StartCta } from "./StartCta";
+import { BackAndNextCta } from "./BackAndNextCta";
 import { RadioChoiceCta } from "./RadioChoiceCta";
 import styles from "./StoryFrame.module.css";
 
@@ -28,10 +30,11 @@ export const StoryFrame: FC<Props> = ({
     dispatchText?.(id, data.content.text);
   };
 
-  const onBtnClick = (cta: ICta): MouseEventHandler<HTMLButtonElement> => {
-    return (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+  const onBtnClick = (cta: ICta) => {
+    return (e?: MouseEvent) => {
+      console.log("onBtnClick", id, cta);
+      e?.preventDefault();
+      e?.stopPropagation();
       dispatchCta(id, cta);
     };
   };
@@ -51,28 +54,10 @@ export const StoryFrame: FC<Props> = ({
 
       <div className={styles.ctas}>
         {type === "start" && (
-          <Button
-            onClick={onBtnClick(data.cta)}
-            variant="primary"
-          >
-            {data.cta.text}
-          </Button>
+          <StartCta cta={data.cta} onBtnClick={onBtnClick} />
         )}
         {type === "back-and-next" && (
-          <>
-            <Button
-              onClick={onBtnClick(data.cta.back)}
-              variant="secondary"
-            >
-              {data.cta.back.text}
-            </Button>
-            <Button
-              onClick={onBtnClick(data.cta.next)}
-              variant="secondary"
-            >
-              {data.cta.next.text}
-            </Button>
-          </>
+          <BackAndNextCta cta={data.cta} onBtnClick={onBtnClick} />
         )}
         {type === "radio-choice" && (
           <RadioChoiceCta cta={data.cta} onBtnClick={onBtnClick} />
