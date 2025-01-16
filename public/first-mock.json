@@ -33,10 +33,11 @@
             "type": "start",
             "data": {
               "cta": {
+                "id": "cta-1",
                 "text": "Empezar",
                 "action": {
                   "type": "frame-change",
-                  "data": "frame-2"
+                  "data": ""
                 }
               },
               "content": {

@@ -20,11 +20,13 @@ export const LeftBar: FC = () => {
     addFrameToStory,
     addTextToFrame,
     addTextToSelectedFrame,
+    addTextToSelectedCta,
   } = useStoryEdit();
 
   const actualFrameHasText = actualFrame?.data.data.content.text.trim().length;
   const isFrameSelected = typeof selectedFrameId !== "undefined";
   const isTextSelected = isFrameSelected && selectedElement?.type === "text";
+  const isCtaSelected = isFrameSelected && selectedElement?.type === "cta";
 
   type ChangeTextAreaEvent = ChangeEventHandler<HTMLTextAreaElement>;
   const addInputTextToSelectedFrame: ChangeTextAreaEvent = (e) => {
@@ -78,10 +80,10 @@ export const LeftBar: FC = () => {
         </EditPanelModuleLayout>
       )}
 
-      {isFrameSelected && isTextSelected && (
+      {isTextSelected && (
         <EditPanelModuleLayout label="Editar texto">
           <EditPanelTextAreaLayout
-            key={actualFrame?.id}
+            key={`${actualFrame?.id}-editText`}
             value={actualFrame?.data.data.content.text}
             onChange={addInputTextToSelectedFrame}
             autoFocus
@@ -90,15 +92,34 @@ export const LeftBar: FC = () => {
         </EditPanelModuleLayout>
       )}
 
-      {/* {isFrameSelected && isCtaSelected && (
-        <>
-          <p>{selectedElement?.type}</p>
+      {isCtaSelected && (
+        <EditPanelModuleLayout label="Editar botón">
+          <pre>{JSON.stringify(selectedElement, null, 1)}</pre>
           <input
-            value={actualFrame?.data.data.content.text}
-            onChange={e => addTextToSelectedFrame(selectedFrameId, e.target.value)}
+            type="text"
+            value={selectedElement.data.text}
+            onChange={(e) => addTextToSelectedCta(e.target.value)}
           />
-        </>
-      )} */}
+          {selectedElement.data.action.type === "frame-change" && (
+            <select
+              value={selectedElement.data.action.data}
+              onChange={console.log}
+            >
+              {!selectedElement.data.action.data.length && (
+                <option key={"empty-ctaSelect"}>Seleccionar</option>
+              )}
+              {frames.map((frame, frameIndex) => {
+                if (frame.id === actualFrame?.id) return null;
+                return (
+                  <option key={frame.id} value={frame.id}>
+                    {frameIndex + 1} - {frame.data.data.content.text}
+                  </option>
+                );
+              })}
+            </select>
+          )}
+        </EditPanelModuleLayout>
+      )}
     </>
   );
 };

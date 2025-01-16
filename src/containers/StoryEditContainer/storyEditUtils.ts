@@ -1,4 +1,4 @@
-import type { IBackAndNextFrame, IFrame, IFrameData, IStartFrame } from "@/types";
+import type { IBackAndNextFrame, ICta, IFrame, IFrameData, IStartFrame } from "@/types";
 
 export const createEmptyFrame = (data: IFrameData): IFrame => ({
   id: `${Math.random()}`,
@@ -15,7 +15,8 @@ export const createEmptyStartFrame = (): IFrame => {
         asset: undefined,
       },
       cta: {
-        text: "Texto de ejemplo",
+        id: `${Math.random()}`,
+        text: "Empezar",
         action: {
           type: "frame-change",
           data: "..."
@@ -36,17 +37,19 @@ export const createEmptyBackAndNextFrame = (): IFrame => {
       },
       cta: {
         back: {
-          text: "Texto de ejemplo",
+          id: `${Math.random()}`,
+          text: "Atrás",
           action: {
             type: "frame-change",
-            data: "..."
+            data: ""
           },
         },
         next: {
-          text: "Texto de ejemplo",
+          id: `${Math.random()}`,
+          text: "Siguiente",
           action: {
             type: "frame-change",
-            data: "..."
+            data: ""
           },
         },
       },
@@ -69,6 +72,42 @@ export const editFrameText = (frame: IFrame, text: string) => ({
     },
   },
 });
+
+export const editStartFrameCta = (frame: IStartFrame, newCta: ICta): IStartFrame => ({
+  ...frame,
+  data: {
+    ...frame.data,
+    cta: {
+      ...frame.data.cta,
+      ...newCta,
+    },
+  },
+});
+
+export const editBackAndNextFrameCta = (frame: IBackAndNextFrame, newCta: ICta): IBackAndNextFrame => ({
+  ...frame,
+    data: {
+    ...frame.data,
+    cta: {
+      next: newCta.id === frame.data.cta.next.id ? newCta : frame.data.cta.next,
+      back: newCta.id === frame.data.cta.back.id ? newCta : frame.data.cta.back,
+    },
+  },
+});
+
+export const editFrameCta = (frame: IFrame, newCta: ICta): IFrame => {
+  let frameData: IFrame["data"] = frame.data;
+  if (frame.data.type === "start") {
+    frameData = editStartFrameCta(frame.data, newCta);
+  }
+  if (frame.data.type === "back-and-next") {
+    frameData = editBackAndNextFrameCta(frame.data, newCta);
+  }
+  return {
+    ...frame,
+    data: frameData,
+  };
+};
 
 export const getFrameById = (frames: IFrame[], id: string): IFrame | undefined => (
   frames.find(frame => frame.id === id)

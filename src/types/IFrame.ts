@@ -1,4 +1,5 @@
 export type ICta = {
+  id: string;
   text: string;
   action: {
     type: "frame-change";
@@ -61,6 +62,7 @@ export const examples: IFrame[] = [
           text: "Hola, soy un frame de inicio",
         },
         cta: {
+          id: "cta-1",
           text: "Empezar",
           action: {
             type: "frame-change",
@@ -81,6 +83,7 @@ export const examples: IFrame[] = [
         },
         cta: {
           back: {
+            id: "cta-2-back",
             text: "Atrás",
             action: {
               type: "frame-change",
@@ -88,6 +91,7 @@ export const examples: IFrame[] = [
             },
           },
           next: {
+            id: "cta-2-next",
             text: "Continuar",
             action: {
               type: "frame-change",
@@ -109,6 +113,7 @@ export const examples: IFrame[] = [
         },
         cta: [
           {
+            id: "cta-3-1",
             text: "Opción 1",
             action: {
               type: "frame-change",
@@ -116,6 +121,7 @@ export const examples: IFrame[] = [
             },
           },
           {
+            id: "cta-3-2",
             text: "Opción 2",
             action: {
               type: "frame-change",

@@ -12,10 +12,11 @@ import { transformStoryToFramesDict } from "@/services/getStory";
 import {
   createEmptyBackAndNextFrame,
   createEmptyStartFrame,
-  editFrameText,
   getFrameById,
   removeFrameById,
   replaceFrameById,
+  editFrameText,
+  editFrameCta,
 } from "./storyEditUtils";
 
 type SelectedElement = {
@@ -43,6 +44,7 @@ type StoryEditState = {
   removeFrameFromStory: (frameId: string) => void;
   addTextToFrame: (frameId: string, text: string, ifEmpty?: boolean) => void;
   addTextToSelectedFrame: (text: string) => void;
+  addTextToSelectedCta: (text: string) => void;
 };
 
 export const StoryEditContext = createContext<StoryEditState | undefined>(undefined);
@@ -51,7 +53,7 @@ type Props = PropsWithChildren<{ story: IStory; }>;
 
 export const StoryEditProvider: FC<Props> = ({ children, story }) => {
   const [editingStory, setEditingStory] = useState<IStory>(story);
-  const [selection, setSelection] = useState<SelectionState>(initialSelectionState);
+  const [selection, setSelection] = useState<SelectionState>(initialSelectionState); // TODO: use only 1 source of truth, use id refs to edittingStory instead fo copying the content
 
   const framesDict = transformStoryToFramesDict(editingStory);
   const actualFrame = selection.frameId ? framesDict[selection.frameId] : undefined;
@@ -124,6 +126,67 @@ export const StoryEditProvider: FC<Props> = ({ children, story }) => {
     }
   };
 
+  const addTextToCta = (frameId: string, ctaId: string, text: string) => {
+    setEditingStory(prev => {
+      const frameToEdit = getFrameById(prev.data.frames, frameId);
+      if (!frameToEdit) return prev;
+      const frameData = frameToEdit.data;
+
+      if (frameData.type === "start") {
+        const newCta: ICta = { ...frameData.data.cta, text };
+        return {
+          ...prev,
+          data: {
+            ...prev.data,
+            frames: replaceFrameById(
+              prev.data.frames,
+              frameId,
+              editFrameCta(frameToEdit, newCta)
+            ),
+          },
+        };
+      }
+      if (frameData.type === "back-and-next") {
+        const backId = frameData.data.cta.back.id;
+        const nextId = frameData.data.cta.next.id;
+        let newCta: ICta | undefined = undefined;
+        if (ctaId === backId) newCta = frameData.data.cta.back;
+        if (ctaId === nextId) newCta = frameData.data.cta.next;
+        if (!newCta) return prev;
+        newCta.text = text;
+        return {
+          ...prev,
+          data: {
+            ...prev.data,
+            frames: replaceFrameById(
+              prev.data.frames,
+              frameId,
+              editFrameCta(frameToEdit, newCta)
+            ),
+          },
+        };
+      }
+      return prev;
+    });
+  };
+
+  const addTextToSelectedCta = (text: string) => {
+    if (selection.frameId && actualFrame && selection.element?.type === "cta") {
+      const selectedElement: ICta = selection.element.data;
+      addTextToCta(selection.frameId, selectedElement.id, text);
+      setSelection(prev => ({
+        ...prev,
+        element: {
+          type: "cta",
+          data: {
+            ...selectedElement,
+            text,
+          },
+        },
+      }));
+    }
+  };
+
   const state: StoryEditState = {
     editingStory,
     selection,
@@ -134,6 +197,7 @@ export const StoryEditProvider: FC<Props> = ({ children, story }) => {
     removeFrameFromStory,
     addTextToFrame,
     addTextToSelectedFrame,
+    addTextToSelectedCta,
   };
 
   return (

@@ -54,7 +54,7 @@ export const StoryFrame: FC<Props> = ({
             onClick={onBtnClick(data.cta)}
             variant="primary"
           >
-            Empezar
+            {data.cta.text}
           </Button>
         )}
         {type === "back-and-next" && (
@@ -63,13 +63,13 @@ export const StoryFrame: FC<Props> = ({
               onClick={onBtnClick(data.cta.back)}
               variant="secondary"
             >
-              Atrás
+              {data.cta.back.text}
             </Button>
             <Button
               onClick={onBtnClick(data.cta.next)}
               variant="secondary"
             >
-              Continuar
+              {data.cta.next.text}
             </Button>
           </>
         )}
