@@ -45,6 +45,8 @@ type StoryEditState = {
   addTextToFrame: (frameId: string, text: string, ifEmpty?: boolean) => void;
   addTextToSelectedFrame: (text: string) => void;
   addTextToSelectedCta: (text: string) => void;
+  addFrameChangeToCta: (frameId: string, ctaId: string, newPointingFrameId: string) => void;
+  addFrameChangeToSelectedCta: (newPointingFrameId: string) => void;
 };
 
 export const StoryEditContext = createContext<StoryEditState | undefined>(undefined);
@@ -187,6 +189,85 @@ export const StoryEditProvider: FC<Props> = ({ children, story }) => {
     }
   };
 
+  const addFrameChangeToCta = (frameId: string, ctaId: string, newPointingFrameId: string) => {
+    setEditingStory(prev => {
+      const frameToEdit = getFrameById(prev.data.frames, frameId);
+      if (!frameToEdit) return prev;
+      const frameData = frameToEdit.data;
+
+      if (frameData.type === "start") {
+        if (frameData.data.cta.action.type === "frame-change") {
+          const newCta: ICta = {
+            ...frameData.data.cta,
+            action: {
+              ...frameData.data.cta.action,
+              data: newPointingFrameId,
+            },
+          };
+          return {
+            ...prev,
+            data: {
+              ...prev.data,
+              frames: replaceFrameById(
+                prev.data.frames,
+                frameId,
+                editFrameCta(frameToEdit, newCta)
+              ),
+            },
+          };
+        }
+        console.warn("Only CTA action supported is frame-change");
+        return prev;
+      }
+      if (frameData.type === "back-and-next") {
+        const backId = frameData.data.cta.back.id;
+        const nextId = frameData.data.cta.next.id;
+        let newCta: ICta | undefined = undefined;
+        if (ctaId === backId) newCta = frameData.data.cta.back;
+        if (ctaId === nextId) newCta = frameData.data.cta.next;
+        if (!newCta) return prev;
+        if (newCta.action.type === "frame-change") {
+          newCta.action.data = newPointingFrameId;
+          return {
+            ...prev,
+            data: {
+              ...prev.data,
+              frames: replaceFrameById(
+                prev.data.frames,
+                frameId,
+                editFrameCta(frameToEdit, newCta)
+              ),
+            },
+          };
+        }
+        console.warn("Only CTA action supported is frame-change");
+        return prev;
+      }
+      console.warn("Only CTA types supported are start and back-and-next");
+      return prev;
+    });
+  };
+
+  const addFrameChangeToSelectedCta = (newPointingFrameId: string) => {
+    if (selection.frameId && actualFrame && selection.element?.type === "cta") {
+      const selectedElement: ICta = selection.element.data;
+      addFrameChangeToCta(selection.frameId, selectedElement.id, newPointingFrameId);
+      setSelection(prev => ({
+        ...prev,
+        element: {
+          type: "cta",
+          data: {
+            ...selectedElement,
+            action: {
+              type: "frame-change",
+              data: newPointingFrameId,
+            },
+          },
+        },
+      }));
+    }
+  };
+
   const state: StoryEditState = {
     editingStory,
     selection,
@@ -198,6 +279,8 @@ export const StoryEditProvider: FC<Props> = ({ children, story }) => {
     addTextToFrame,
     addTextToSelectedFrame,
     addTextToSelectedCta,
+    addFrameChangeToCta,
+    addFrameChangeToSelectedCta,
   };
 
   return (

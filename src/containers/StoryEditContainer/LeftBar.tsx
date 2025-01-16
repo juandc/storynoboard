@@ -21,6 +21,7 @@ export const LeftBar: FC = () => {
     addTextToFrame,
     addTextToSelectedFrame,
     addTextToSelectedCta,
+    addFrameChangeToSelectedCta,
   } = useStoryEdit();
 
   const actualFrameHasText = actualFrame?.data.data.content.text.trim().length;
@@ -96,14 +97,17 @@ export const LeftBar: FC = () => {
         <EditPanelModuleLayout label="Editar botón">
           <pre>{JSON.stringify(selectedElement, null, 1)}</pre>
           <input
+            key={`${selectedElement.data.id}-editTextCta`}
             type="text"
             value={selectedElement.data.text}
             onChange={(e) => addTextToSelectedCta(e.target.value)}
+            autoFocus
+            onFocus={(e) => e.target.selectionStart = e.target.selectionEnd = e.target.value.length}
           />
           {selectedElement.data.action.type === "frame-change" && (
             <select
               value={selectedElement.data.action.data}
-              onChange={console.log}
+              onChange={(e) => addFrameChangeToSelectedCta(e.target.value)}
             >
               {!selectedElement.data.action.data.length && (
                 <option key={"empty-ctaSelect"}>Seleccionar</option>
