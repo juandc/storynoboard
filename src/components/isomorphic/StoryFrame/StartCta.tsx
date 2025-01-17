@@ -13,7 +13,6 @@ type Props = {
 export const StartCta: FC<Props> = ({ cta, onBtnClick }) => {
   useSwipe({
     onSwipeLeft: () => {
-      console.log("Swipe right");
       onBtnClick(cta)();
     },
     deps: [cta.id],

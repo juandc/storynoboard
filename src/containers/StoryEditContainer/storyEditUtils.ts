@@ -1,4 +1,4 @@
-import type { IBackAndNextFrame, ICta, IFrame, IFrameData, IStartFrame } from "@/types";
+import type { IBackAndNextFrame, ICta, IFrame, IFrameData, IRadioChoiceFrame, IStartFrame } from "@/types";
 
 export const createEmptyFrame = (data: IFrameData): IFrame => ({
   id: `${Math.random()}`,
@@ -58,6 +58,42 @@ export const createEmptyBackAndNextFrame = (): IFrame => {
   return createEmptyFrame(backAndNextFrameData);
 };
 
+export const createEmptyRadioChoiceFrame = (): IFrame => {
+  const backAndNextFrameData: IRadioChoiceFrame = {
+    type: "radio-choice",
+    data: {
+      content: {
+        text: "",
+        asset: undefined,
+      },
+      cta: [
+        ...[1,2,3].map((x: number): ICta => ({
+          id: `${Math.random()}`,
+          text: `Opción ${x}`,
+          action: {
+            type: "frame-change",
+            data: "",
+          },
+        })),
+      ],
+    }
+  };
+  return createEmptyFrame(backAndNextFrameData);
+};
+
+export const getFrameById = (frames: IFrame[], id: string): IFrame | undefined => (
+  frames.find(frame => frame.id === id)
+);
+
+export const removeFrameById = (frames: IFrame[], id: string): IFrame[] => ([
+  ...frames.filter(frame => frame.id !== id),
+]);
+
+export const replaceFrameById = (frames: IFrame[], id: string, newFrame: IFrame): IFrame[] => ([
+  ...frames.map(frame => frame.id !== id ? frame : newFrame),
+]);
+
+
 // TODO: should return type IFrame
 export const editFrameText = (frame: IFrame, text: string) => ({
   ...frame,
@@ -103,23 +139,18 @@ export const editFrameCta = (frame: IFrame, newCta: ICta): IFrame => {
   if (frame.data.type === "back-and-next") {
     frameData = editBackAndNextFrameCta(frame.data, newCta);
   }
-  return {
-    ...frame,
-    data: frameData,
-  };
+  return { ...frame, data: frameData };
 };
 
-export const getFrameById = (frames: IFrame[], id: string): IFrame | undefined => (
-  frames.find(frame => frame.id === id)
-);
+export const addRadioChoiceFrameCta = (frame: IRadioChoiceFrame, newCta: ICta): IRadioChoiceFrame => {
+  const newCtaList = [...frame.data.cta, newCta];
+  return { ...frame, data: { ...frame.data, cta: newCtaList } };
+};
 
-export const removeFrameById = (frames: IFrame[], id: string): IFrame[] => ([
-  ...frames.filter(frame => frame.id !== id),
-]);
-
-export const replaceFrameById = (frames: IFrame[], id: string, newFrame: IFrame): IFrame[] => ([
-  ...frames.map(frame => {
-    if (frame.id !== id) return frame;
-    return newFrame;
-  }),
-]);
+export const removeRadioChoiceFrameCta = (frame: IRadioChoiceFrame, ctaId: string): IRadioChoiceFrame => {
+  const newCtaList = frame.data.cta.filter(cta => cta.id !== ctaId);
+  return {
+    ...frame,
+    data: { ...frame.data, cta: newCtaList },
+  };
+};

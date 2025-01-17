@@ -10,13 +10,16 @@ import {
 import type { ICta, IFrame, IFrameContent, IFrameTypes, IStory } from "@/types";
 import { transformStoryToFramesDict } from "@/services/getStory";
 import {
-  createEmptyBackAndNextFrame,
   createEmptyStartFrame,
+  createEmptyBackAndNextFrame,
+  createEmptyRadioChoiceFrame,
   getFrameById,
   removeFrameById,
   replaceFrameById,
   editFrameText,
   editFrameCta,
+  addRadioChoiceFrameCta,
+  removeRadioChoiceFrameCta,
 } from "./storyEditUtils";
 
 type SelectedElement = {
@@ -47,6 +50,10 @@ type StoryEditState = {
   addTextToSelectedCta: (text: string) => void;
   addFrameChangeToCta: (frameId: string, ctaId: string, newPointingFrameId: string) => void;
   addFrameChangeToSelectedCta: (newPointingFrameId: string) => void;
+  addRadioChoice: (frameId: string, newCta: ICta) => void;
+  addRadioChoiceToSelectedFrame: (newCta: ICta) => void;
+  removeRadioChoice: (frameId: string, ctaId: string) => void;
+  removeRadioChoiceFromSelectedFrame: (ctaId: string) => void;
 };
 
 export const StoryEditContext = createContext<StoryEditState | undefined>(undefined);
@@ -68,6 +75,7 @@ export const StoryEditProvider: FC<Props> = ({ children, story }) => {
     let newFrame: IFrame | undefined = undefined;
     if (type === "start") newFrame = createEmptyStartFrame();
     if (type === "back-and-next") newFrame = createEmptyBackAndNextFrame();
+    if (type === "radio-choice") newFrame = createEmptyRadioChoiceFrame();
     if (newFrame) {
       setEditingStory(prev => {
         const newFrames: IFrame[] = prev.data.frames;
@@ -268,6 +276,80 @@ export const StoryEditProvider: FC<Props> = ({ children, story }) => {
     }
   };
 
+  const addRadioChoice = (frameId: string, newCta: ICta) => {
+    setEditingStory(prev => {
+      const frameToEdit = getFrameById(prev.data.frames, frameId);
+      if (!frameToEdit) return prev;
+      const frameData = frameToEdit.data;
+      if (frameData.type === "radio-choice") {
+        return {
+          ...prev,
+          data: {
+            ...prev.data,
+            frames: replaceFrameById(
+              prev.data.frames,
+              frameId,
+              {
+                ...frameToEdit,
+                data: addRadioChoiceFrameCta(frameData, newCta),
+              }
+            ),
+          },
+        };
+      }
+      console.warn("Frame type is not radio-choice");
+      return prev;
+    });
+  };
+
+  const removeRadioChoice = (frameId: string, ctaId: string) => {
+    setEditingStory(prev => {
+      const frameToEdit = getFrameById(prev.data.frames, frameId);
+      if (!frameToEdit) return prev;
+      const frameData = frameToEdit.data;
+      if (frameData.type === "radio-choice") {
+        return {
+          ...prev,
+          data: {
+            ...prev.data,
+            frames: replaceFrameById(
+              prev.data.frames,
+              frameId,
+              {
+                ...frameToEdit,
+                data: removeRadioChoiceFrameCta(frameData, ctaId),
+              }
+            ),
+          },
+        };
+      }
+      console.warn("Frame type is not radio-choice");
+      return prev;
+    });
+  };
+
+  const addRadioChoiceToSelectedFrame = (newCta: ICta) => {
+    if (selection.frameId && actualFrame && selection.element?.type === "cta") {
+      addRadioChoice(selection.frameId, newCta);
+      setSelection(prev => ({
+        ...prev,
+        element: {
+          type: "cta",
+          data: {
+            ...newCta,
+          },
+        },
+      }));
+    }
+  };
+
+  const removeRadioChoiceFromSelectedFrame = (ctaId: string) => {
+    if (selection.frameId && actualFrame && selection.element?.type === "cta") {
+      removeRadioChoice(selection.frameId, ctaId);
+      setSelection(prev => ({ ...prev, element: undefined }));
+    }
+  };
+
   const state: StoryEditState = {
     editingStory,
     selection,
@@ -281,6 +363,10 @@ export const StoryEditProvider: FC<Props> = ({ children, story }) => {
     addTextToSelectedCta,
     addFrameChangeToCta,
     addFrameChangeToSelectedCta,
+    addRadioChoice,
+    addRadioChoiceToSelectedFrame,
+    removeRadioChoice,
+    removeRadioChoiceFromSelectedFrame,
   };
 
   return (

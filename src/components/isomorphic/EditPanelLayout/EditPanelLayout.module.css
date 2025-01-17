@@ -13,15 +13,15 @@
   margin: 0 -8px;
   padding: 6px 8px;
 }
-.editPanelElement:hover {
-  background-color: var(--bg-elevated);
-}
 
 .editPanelElement > div,
 .editPanelElement > p {
   width: 100%;
 }
 
+.editPanelElement__draggable:hover {
+  background-color: var(--bg-elevated);
+}
 .editPanelElement__draggable > div,
 .editPanelElement__draggable > p {
   cursor: grab;

@@ -32,7 +32,6 @@ export const StoryFrame: FC<Props> = ({
 
   const onBtnClick = (cta: ICta) => {
     return (e?: MouseEvent) => {
-      console.log("onBtnClick", id, cta);
       e?.preventDefault();
       e?.stopPropagation();
       dispatchCta(id, cta);

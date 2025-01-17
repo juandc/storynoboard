@@ -28,6 +28,8 @@ export const LeftBar: FC = () => {
     addTextToSelectedFrame,
     addTextToSelectedCta,
     addFrameChangeToSelectedCta,
+    addRadioChoiceToSelectedFrame,
+    removeRadioChoiceFromSelectedFrame,
   } = useStoryEdit();
 
   const actualFrameHasText = actualFrame?.data.data.content.text.trim().length;
@@ -75,6 +77,15 @@ export const LeftBar: FC = () => {
           )}
           btnOnClick={() => addFrameToStory("back-and-next")}
         />
+        <EditPanelElementLayout
+          label="Opción múltiple"
+          labelWrapper={(c) => (
+            <DraggableFrameBtn type={dndFrameTypes.BTN_FRAME_RADIO_CHOICE}>
+              {c}
+            </DraggableFrameBtn>
+          )}
+          btnOnClick={() => addFrameToStory("radio-choice")}
+        />
       </EditPanelModuleLayout>
 
       {frames.length > 0 && (
@@ -104,6 +115,31 @@ export const LeftBar: FC = () => {
 
       {isCtaSelected && (
         <EditPanelModuleLayout label="Editar botón">
+          {actualFrame?.data.type === "radio-choice" && (
+            <>
+              <EditPanelElementLayout
+                label="Agregar opción"
+                labelIsDraggable={false}
+                btnDisabled={actualFrame.data.data.cta.length >= 4}
+                btnOnClick={() => addRadioChoiceToSelectedFrame({
+                  id: `${Math.random()}`,
+                  text: `Nueva opción`,
+                  action: {
+                    type: "frame-change",
+                    data: "",
+                  },
+                })}
+              />
+              <EditPanelElementLayout
+                label="Eliminar opción"
+                labelIsDraggable={false}
+                btnChildren="-"
+                btnDisabled={actualFrame.data.data.cta.length <= 1}
+                btnOnClick={() => removeRadioChoiceFromSelectedFrame(selectedElement.data.id)}
+              />
+            </>
+          )}
+
           <EditPanelInputLayout
             key={`${selectedElement.data.id}-editTextCta`}
             type="text"

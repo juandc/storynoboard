@@ -17,6 +17,7 @@ type EditPanelElementLayoutProps = {
   label: string;
   labelIsDraggable?: boolean;
   labelWrapper?: (children: ReactNode) => ReactNode;
+  btnChildren?: ReactNode;
   btnDisabled?: boolean;
   btnOnClick?: () => void;
 };
@@ -25,6 +26,7 @@ export const EditPanelElementLayout: FC<EditPanelElementLayoutProps> = ({
   label,
   labelIsDraggable = true,
   labelWrapper = (c: ReactNode) => c,
+  btnChildren = "+",
   btnDisabled = false,
   btnOnClick,
 }) => (
@@ -36,7 +38,7 @@ export const EditPanelElementLayout: FC<EditPanelElementLayoutProps> = ({
     `}
   >
     {labelWrapper(<p>{label}</p>)}
-    <button onClick={btnOnClick} disabled={btnDisabled}>+</button>
+    <button onClick={btnOnClick} disabled={btnDisabled}>{btnChildren}</button>
   </div>
 );
 
