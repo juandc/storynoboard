@@ -22,6 +22,11 @@
   min-width: 8rem;
 }
 
+.column h2 {
+  line-height: 120%;
+  margin-bottom: 1rem;
+}
+
 .shelf li {
   cursor: grab;
 }

@@ -30,25 +30,52 @@ const ShelvesContainer = () => {
           },
         ],
       },
+      {
+        id: "id de la columna 3",
+        name: "nombre de la columna 3",
+        stories: [
+          {
+            id: "id de la historia 3",
+            title: "titulo de la historia 3",
+          },
+        ],
+      },
     ],
   };
   const [shelf, setShelf] = useState<any>(initialState);
 
-  const onDrop = (dropId: string) => (type: string, dragId: string): void => {
+  const onDrop = (dropId: string) => (type: string, dragId: string, originalIndex?: number): void => {
     console.log("onDrop", {type, dragId});
-    setShelf((prev: any) => {
-      const dropItemIndex = prev.columns.findIndex((column: any) => column.id === dropId);
-      const dragItemIndex = prev.columns.findIndex((column: any) => column.id === dragId);
-      if (dropItemIndex === -1 || dragItemIndex === -1) return prev;
-      const dragItem = { ...prev.columns[dragItemIndex] };
-      const newColumns = [...prev.columns];
-      newColumns.splice(dragItemIndex, 1);
-      newColumns.splice(dropItemIndex, 0, dragItem);
-      return {
-        ...prev,
-        columns: newColumns,
-      };
-    });
+    if (originalIndex !== undefined && originalIndex !== -1) {
+      console.log("originalIndex", originalIndex);
+      setShelf((prev: any) => {
+        // const dropItemIndex = prev.columns.findIndex((column: any) => column.id === dropId);
+        const dragItemIndex = prev.columns.findIndex((column: any) => column.id === dragId);
+        if (originalIndex === -1 || dragItemIndex === -1) return prev;
+        const dragItem = { ...prev.columns[dragItemIndex] };
+        const newColumns = [...prev.columns];
+        newColumns.splice(dragItemIndex, 1);
+        newColumns.splice(originalIndex, 0, dragItem);
+        return {
+          ...prev,
+          columns: newColumns,
+        };
+      });
+    } else {
+      setShelf((prev: any) => {
+        const dropItemIndex = prev.columns.findIndex((column: any) => column.id === dropId);
+        const dragItemIndex = prev.columns.findIndex((column: any) => column.id === dragId);
+        if (dropItemIndex === -1 || dragItemIndex === -1) return prev;
+        const dragItem = { ...prev.columns[dragItemIndex] };
+        const newColumns = [...prev.columns];
+        newColumns.splice(dragItemIndex, 1);
+        newColumns.splice(dropItemIndex, 0, dragItem);
+        return {
+          ...prev,
+          columns: newColumns,
+        };
+      });
+    }
   };
 
   return (
@@ -60,6 +87,7 @@ const ShelvesContainer = () => {
             key={id}
             id={id}
             type="shelfColumn"
+            index={shelf.columns.findIndex((column: any) => column.id === id)}
             onDrop={onDrop(id)}
           >{c}</DraggableColumn>
         )}
