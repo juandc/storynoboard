@@ -1,0 +1,31 @@
+.shelf {
+  background-color: var(--bg-elevated);
+  margin: 4rem auto;
+  padding: 2rem;
+  max-width: 768px;
+  width: 90%;
+  overflow-x: scroll;
+}
+
+.shelf ul {
+  list-style: none;
+}
+
+.shelf > ul {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  cursor: grab;
+  margin-right: 2rem;
+  min-width: 8rem;
+}
+
+.shelf li {
+  cursor: grab;
+}
+
+.shelf li:hover {
+  background-color: var(--bg-elevated-2);
+}

@@ -11,4 +11,4 @@ export type {
   IFrame,
   IFramesDict,
 } from "./IFrame";
-export type { IDndFrameTypes, IDndContentTypes } from "./IDnd";
+export type { IDndFrameTypes, IDndContentTypes, IDndShelfTypes } from "./IDnd";

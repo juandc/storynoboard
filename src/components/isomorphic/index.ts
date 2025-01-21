@@ -15,3 +15,5 @@ export {
   EditPanelInputLayout,
   EditPanelSelectLayout,
 } from "./EditPanelLayout/EditPanelLayout";
+
+export { Shelf } from "./Shelf/Shelf";
