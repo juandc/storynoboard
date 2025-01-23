@@ -20,7 +20,7 @@
 }
 
 .editPanelElement__draggable:hover {
-  background-color: var(--bg-elevated);
+  background-color: var(--bg-descended);
 }
 .editPanelElement__draggable > div,
 .editPanelElement__draggable > p {
@@ -30,23 +30,20 @@
 .editPanelElement > button {
   border: none;
   border-radius: 6px;
-  background-color: var(--bg);
-  color: inherit;
   cursor: pointer;
   padding: 4px;
   width: 32px;
   aspect-ratio: 1 / 1;
 }
-.editPanelElement > button:hover:not(:disabled) {
-  background-color: var(--primary);
-  color: var(--text-inverse);
-}
 .editPanelElement > button:active:not(:disabled) {
   opacity: 0.9;
 }
 .editPanelElement > button:disabled {
+  background: var(--btn-bg-disabled);
   cursor: not-allowed;
-  opacity: 0.5;
+}
+.editPanelElement__disabled:not(.editPanelElement__draggable) {
+  color: var(--text-disabled);
 }
 
 .editPanelTextArea,
@@ -55,10 +52,29 @@
   border: none;
   border-radius: 8px;
   background-color: var(--bg);
+  color: var(--text);
   cursor: text;
   margin-top: 8px;
   padding: 16px;
   width: 100%;
+}
+
+.editPanelTextArea::placeholder,
+.editPanelInput::placeholder,
+.editPanelSelect::placeholder {
+  color: var(--purple-dark-04);
+}
+
+.editPanelTextArea:focus,
+.editPanelTextArea:focus-visible,
+.editPanelTextArea:focus-within,
+.editPanelInput:focus,
+.editPanelInput:focus-visible,
+.editPanelInput:focus-within,
+.editPanelSelect:focus,
+.editPanelSelect:focus-visible,
+.editPanelSelect:focus-within {
+  outline: 1px solid var(--border-focus);
 }
 
 .editPanelTextArea {

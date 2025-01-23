@@ -38,17 +38,23 @@ export const EditPanelElementLayout: FC<EditPanelElementLayoutProps> = ({
     `}
   >
     {labelWrapper(<p>{label}</p>)}
-    <button onClick={btnOnClick} disabled={btnDisabled}>{btnChildren}</button>
+    <button
+      className="gradient-primary-animated"
+      onClick={btnOnClick}
+      disabled={btnDisabled}
+    >{btnChildren}</button>
   </div>
 );
 
 type EditPanelTextAreaLayoutProps = {
   value: string | undefined;
+  placeholder?: string;
 } & HTMLAttributes<HTMLTextAreaElement>;
 
 export const EditPanelTextAreaLayout: FC<EditPanelTextAreaLayoutProps> = ({
   value,
   className,
+  placeholder,
   ...props
 }) => (
   <textarea
@@ -56,6 +62,7 @@ export const EditPanelTextAreaLayout: FC<EditPanelTextAreaLayoutProps> = ({
     autoFocus
     {...props}
     value={value}
+    placeholder={placeholder}
     className={`${styles.editPanelTextArea} ${className}`}
   />
 );

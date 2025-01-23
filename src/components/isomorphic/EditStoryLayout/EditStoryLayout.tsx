@@ -81,8 +81,10 @@ export const DroppableStoryAreaLayout = forwardRef(
       ref={ref}
       className={`
         ${styles.droppableStory}
-        ${isOver && styles.droppableStory__over}
         ${canDrop && styles.droppableStory__allowed}
+        ${canDrop && "gradient-primary-animated"}
+        ${isOver && styles.droppableStory__over}
+        ${isOver && "gradient-primary-animated--active"}
         ${isFirst && styles.droppableStory__first}
         ${isOnly && styles.droppableStory__only}
       `}
@@ -107,8 +109,10 @@ export const DroppableContentAreaLayout = forwardRef(
       ref={ref}
       className={`
         ${styles.droppableContent}
-        ${isOver && styles.droppableContent__over}
         ${canDrop && styles.droppableContent__allowed}
+        ${canDrop && "gradient-primary-animated"}
+        ${isOver && styles.droppableContent__over}
+        ${isOver && "gradient-primary-animated--active"}
       `}
     >{children}</div>
   )

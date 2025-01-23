@@ -1,41 +1,36 @@
 :root {
-  --pink-white-01: #FFF9FE;
-  --pink-white-02: #FCEFFA;
-  --pink-white-03: #F5E2F9;
-  --pink-white-01-75: #fff9febf;
-  --pink-white-01-0: #fff9fe00;
-  --violet-primary: #a21df4;
-  --violet-black: #190136;
+  --white-01: #F0EBF4;
+  /* --green-light-01: #AAF09F; */
+  --green-light-01: #D3F09F;
+  --green-light-02: #08EC50;
+  --purple-dark-01: #120819;
+  --purple-dark-02: #1D1026;
+  --purple-dark-02-00: #1D102600;
+  --purple-dark-02-75: #1D1026bf;
+  --purple-dark-03: #2B2034;
+  --purple-dark-04: #66557D;
 
-  --bg: var(--pink-white-01);
-  --bg-elevated: var(--pink-white-02);
-  --bg-elevated-2: var(--pink-white-03);
-  --text-primary: var(--violet-black);
-  --text-inverse: var(--pink-white-01);
-  --primary: var(--violet-primary);
-  --secondary: var(--pink-white-03);
+  --text: var(--white-01);
+  --text-disabled: var(--purple-dark-04);
+  --text-inverse: var(--purple-dark-01);
+
+  --bg: var(--purple-dark-02);
+  --bg-elevated: var(--purple-dark-01);
+  --bg-descended: var(--purple-dark-03);
+
+  --border-focus: var(--white-01);
+
+  --btn-text: var(--text-inverse);
+  --btn-text-inverse: var(--text);
+  --btn-bg: var(--text);
+  --btn-bg-inverse: var(--purple-dark-01);
+  --btn-bg-inverse-hover: var(--purple-dark-03);
+  --btn-bg-disabled: var(--purple-dark-03);
+  --btn-bg-edit: var(--gradient-static);
+  --btn-bg-edit-hover: var(--gradient-primary);
 }
 
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-} */
-
-html,
-body {
+html, body {
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -43,10 +38,8 @@ body {
 html { overflow: hidden; }
 
 body {
-  /* color: var(--foreground);
-  background: var(--background); */
   background-color: var(--bg);
-  color: var(--text-primary);
+  color: var(--text);
   font-family: var(--font-jaldi), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -61,4 +54,65 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+@property --gradient-primary-color1 {
+  syntax: '<color>';
+  initial-value: #D3F09F;
+  inherits: false;
+}
+
+@property --gradient-primary-color2 {
+  syntax: '<color>';
+  initial-value: #D3F09F;
+  inherits: false;
+}
+
+@property --gradient-primary-angle {
+  syntax: '<angle>';
+  initial-value: 135deg;
+  inherits: false;
+}
+
+@keyframes gradient-primary-animation {
+  0%, 100% {
+    --gradient-primary-color1: var(--green-light-01);
+    --gradient-primary-color2: var(--green-light-02);
+    --gradient-primary-angle: 135deg;
+  }
+  25% {
+    --gradient-primary-angle: 90deg;
+  }
+  50% {
+    --gradient-primary-color1: var(--green-light-02);
+    --gradient-primary-color2: var(--green-light-01);
+  }
+  75% {
+    --gradient-primary-angle: 180deg;
+  }
+}
+
+.gradient-primary-animated {
+  --gradient-primary-static: var(--green-light-01);
+  --gradient-primary-color1: var(--green-light-01);
+  --gradient-primary-color2: var(--green-light-01);
+  --gradient-primary-angle: 135deg;
+  --gradient-primary: linear-gradient(
+    var(--gradient-primary-angle),
+    var(--gradient-primary-color2) 0%,
+    var(--gradient-primary-color1) 100%
+  );
+  background-color: var(--gradient-primary-static);
+  background-image: var(--gradient-primary);
+  transition:
+    --gradient-primary-color1 .45s,
+    --gradient-primary-color2 .45s,
+    --gradient-primary-angle .45s
+  ;
+}
+.gradient-primary-animated:hover:not(:disabled),
+.gradient-primary-animated--active {
+  --gradient-primary-color1: var(--green-light-01);
+  --gradient-primary-color2: var(--green-light-02);
+  animation: gradient-primary-animation 2.25s infinite;
 }

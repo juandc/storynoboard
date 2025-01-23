@@ -1,10 +1,10 @@
 .topbar {
-  background: var(--bg-elevated-2);
+  background: var(--bg-elevated);
   border-radius: 12px;
   position: fixed;
   top: 8px;
-  left: calc(256px + 8px + 8px);
-  right: 8px;
+  left: calc(256px + 10px + 8px);
+  right: 6px;
   display: flex;
   align-items: center;
   padding: 12px 16px;
@@ -13,25 +13,25 @@
 }
 
 .leftbar {
-  background: var(--bg-elevated-2);
+  background: var(--bg-elevated);
   border-radius: 12px;
   position: fixed;
   top: 8px;
   bottom: 8px;
-  left: 8px;
+  left: 12px;
   padding: 12px 16px;
   height: calc(100dvh - 8px - 8px);
   width: 256px;
 }
 
 .board {
-  background: var(--bg-elevated);
+  background: var(--bg-descended);
   border-radius: 12px;
   position: fixed;
-  top: calc(56px + 8px + 8px);
+  top: calc(56px + 8px + 6px);
   bottom: 8px;
-  left: calc(256px + 8px + 8px);
-  right: 8px;
+  left: calc(256px + 10px + 8px);
+  right: 6px;
   min-width: 400px;
   overflow: auto;
 
@@ -51,10 +51,10 @@
   border-color: var(--text-primary);
 }
 .phonelikewrapper > button {
-  background-color: var(--text-primary);
+  background-color: var(--btn-bg-inverse);
   border: none;
   border-radius: 20px;
-  color: var(--bg-elevated-2);
+  color: var(--btn-text-inverse);
   cursor: pointer;
   font-family: inherit;
   font-size: 22px;
@@ -70,11 +70,14 @@
   z-index: 1;
 
   opacity: 0;
-  transition: opacity .15s ease-in;
+  transition: opacity .15s ease-in, background-color .15s ease-in;
 }
 .phonelikewrapper:hover > button,
 .phonelikewrapper__active > button {
   opacity: 1;
+}
+.phonelikewrapper > button:hover {
+  background-color: var(--btn-bg-inverse-hover);
 }
 .phonelikewrapper > button span {
   text-align: center;
@@ -87,38 +90,29 @@
 }
 
 .droppableStory {
-  background-color: var(--secondary);
-  border-radius: 12px;
-  opacity: 0;
+  border-radius: 8px;
   position: relative;
   z-index: 1;
   height: 48px;
   width: 100%;
+  max-width: calc(375px + 8rem);
+  margin: 0 auto;
 }
-.droppableStory__allowed {
-  opacity: 0.5;
-}
-.droppableStory__over {
-  background-color: var(--primary);
-}
+/* .droppableStory__allowed {}
+.droppableStory__over {} */
 .droppableStory__first {
   height: 40px;
 }
 .droppableStory__only {
   height: calc(100dvh - (64px + 16px));
+  max-width: 100%;
 }
 
 .droppableContent {
-  border-radius: 12px;
+  border-radius: 4px;
   position: relative;
   height: 100%;
   width: 100%;
 }
-.droppableContent__allowed {
-  background-color: var(--secondary);
-  opacity: 0.5;
-}
-.droppableContent__over {
-  background-color: var(--primary);
-  opacity: 0.5;
-}
+/* .droppableContent__allowed {}
+.droppableContent__over {} */

@@ -107,6 +107,7 @@ export const LeftBar: FC = () => {
         <EditPanelModuleLayout label="Editar texto">
           <EditPanelTextAreaLayout
             key={`${actualFrame?.id}-editText`}
+            placeholder="Había una vez..."
             value={actualFrame?.data.data.content.text}
             onChange={addInputTextToSelectedFrame}
           />

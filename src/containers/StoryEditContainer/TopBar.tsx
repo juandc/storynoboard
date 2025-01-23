@@ -4,6 +4,8 @@ import { useStoryEdit } from "./StoryEditContext";
 const temporaryStyles = {
   border: "none",
   borderRadius: 8,
+  backgroundColor: "var(--green-light-01)",
+  color: "var(--text-inverse)",
   padding: "8px 16px",
 };
 
@@ -25,7 +27,6 @@ export const TopBar: FC = () => {
         type="button"
         style={{
           ...temporaryStyles,
-          backgroundColor: "var(--bg)",
           marginRight: 8,
           cursor: "pointer",
         }}
@@ -38,17 +39,16 @@ export const TopBar: FC = () => {
       </button>
       <button disabled style={{
         ...temporaryStyles,
-        backgroundColor: "var(--bg)",
         marginRight: 8,
-        opacity: 0.6,
+        backgroundColor: "var(--purple-dark-03)",
+        cursor: "no-drop",
       }}>
         Ver
       </button>
       <button disabled style={{
         ...temporaryStyles,
-        backgroundColor: "var(--primary)",
-        color: "var(--text-inverse)",
-        opacity: 0.6,
+        backgroundColor: "var(--purple-dark-03)",
+        cursor: "no-drop",
       }}>
         Guardar
       </button>
